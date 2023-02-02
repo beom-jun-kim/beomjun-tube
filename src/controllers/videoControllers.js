@@ -64,8 +64,10 @@ export const postEdit = async (req, res) => {
   return res.redirect(`/videos/${id}`);
 };
 
-export const deleteVideo = (req, res) => {
-  return res.send("delete video");
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+  await movieModel.findByIdAndDelete(id);
+  return res.redirect("/");
 };
 
 export const search = (req, res) => res.send("search video");
