@@ -1,9 +1,18 @@
+import userModel from "../models/user.js";
+
 export const getJoin = (req, res) => {
   return res.render("join", { pageTitle: "Join" });
 };
-export const postJoin = (req, res) => {
-  console.log("안녕 나는 요청을 했어",req.body);
-  res.end();
+export const postJoin = async (req, res) => {
+  const { name, username, email, loction, password } = req.body;
+  await userModel.create({
+    name,
+    username, 
+    password,
+    loction, 
+    email, 
+  });
+  return res.redirect("/login");
 };
 export const edit = (req, res) => res.send("Edit USer");
 export const remove = (req, res) => res.send("Remove User");
