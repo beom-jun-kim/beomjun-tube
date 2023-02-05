@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 // database에 연결
 mongoose.set("strictQuery", true);
-mongoose.connect("mongodb://127.0.0.1:27017/webtube");
+mongoose.connect("mongodb://127.0.0.1:27017/webtube", /* {useFindAndModify:false} */);
 
 // mongoose가 connection에 대한 액세스를 줌
 const db = mongoose.connection;

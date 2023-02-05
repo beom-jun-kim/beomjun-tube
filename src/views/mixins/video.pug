@@ -9,9 +9,8 @@ mixin video(video)
     div 
         h4
             a(href=`/videos/${video.id}`)=video.title
-        ul 
-            //- li 평점 #{video.rating}/5
-            li #{video.description}
-            li 댓글 #{video.comments}
-            li 업로드 #{video.createdAt}
-            li 조회수 #{video.views}
+        p=video.description
+        ul
+            each hashtag in video.hashtags
+                li=hashtag
+        small=video.createdAt
