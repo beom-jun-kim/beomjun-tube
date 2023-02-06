@@ -87,7 +87,7 @@ export const search = async (req, res) => {
         // i : 대.소문자 구분X  ( ignore case 무시하다라는 뜻)
         // ^$ : keyword로 '시작하는' 제목
         // ${keyword}$ : keyword로 '끝나는' 제목
-        $regex: new RegExp(`^${keyword}`, "i")
+        $regex: new RegExp(`${keyword}`, "i")
       },
     });
   }
