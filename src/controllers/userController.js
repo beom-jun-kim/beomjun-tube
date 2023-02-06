@@ -31,7 +31,6 @@ export const postJoin = async (req, res) => {
       loction,
       email,
     });
-    console.log("dfdfd", req.body);
     return res.redirect("/login");
   } catch (error) {
     return res.status(400).render("join", {
@@ -66,6 +65,11 @@ export const postLogin = async (req, res) => {
       error_message: "존재하지 않는 비밀번호입니다",
     });
   }
+
+  // 각 유저바다 서로 다른 세션 오브젝트를 가지고 있다
+  // 세션에 정보를 추가 ↓
+  req.session.loggedIn = true;
+  req.session.user = user;
   return res.redirect("/");
 };
 
