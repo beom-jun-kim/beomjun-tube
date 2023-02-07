@@ -40,7 +40,7 @@ app.use(
   session({
 
     // 옵션설정
-    secret: "안녕. 만나서 반가워",
+    secret: process.env.COOKIE_SECRET,
 
     // 모든 request마다 세션의 변경사항 있든 없든 세션을 다시 저장
     // flase를 주는 이유 : 변경사항 없을시 다시 저장하면 비효율. 충돌방지 등
@@ -51,8 +51,14 @@ app.use(
     // uninitialized 상태 : 아무 작업이 가해지지 않는 초기 상태의 세션
     saveUninitialized: false,
 
+    cookie: {
+
+      // 세션이 언제 만료되는지 1/1000초 단위로 작성 = 1000 = 1초
+      maxAge:10000,
+    },
+
     // database 연결
-    store: MongoStore.create({mongoUrl: "mongodb://127.0.0.1:27017/webtube"}),
+    store: MongoStore.create({mongoUrl: process.env.DB_URL}),
   })
 );
 
