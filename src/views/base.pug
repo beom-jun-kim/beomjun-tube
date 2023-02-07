@@ -1,7 +1,7 @@
 doctype html
 html(lang="ko")
     head
-        title #{pageTitle} | webtube
+        title #{pageTitle} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css")
     body 
         header
@@ -11,17 +11,24 @@ html(lang="ko")
             nav 
                 ul 
                     li 
-                        a(href="/") Home
-                    li 
-                        a(href="/videos/upload") Upload Video
+                        a(href="/") 홈
                     li
-                        a(href="/search") Search
+                        a(href="/search") 검색
 
-                    if !req.session.loggedIn
+                    li 
+                        a(href="/videos/upload") 비디오 업로드
+
+                    if loggedIn
+
                         li
-                            a(href="/login") Login
+                            a(href="/logout") 로그아웃
                         li
-                            a(href="/join") Join
+                            a(href="/my-profile") #{loggedInUser.name}의 프로필
+                    else 
+                        li
+                            a(href="/login") 로그인
+                        li
+                            a(href="/join") 가입하기
         main
             block content
         include partials/footer

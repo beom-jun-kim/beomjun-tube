@@ -1,6 +1,6 @@
 import "./db.js";
 import "./models/video.js";
-import express from "express";
+import express, { application } from "express";
 import morgan from "morgan";
 import session from "express-session";
 
@@ -8,16 +8,14 @@ import session from "express-session";
 import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
+import { localsMiddlewares } from "./middlewares.js";
 
 const app = express();
 
 const logger = morgan("dev");
 
 app.set("view engine", "pug"); /* express는 views 디렉토리에서 pug를 찾는다 */
-app.set(
-  "views",
-  process.cwd() + "/src/views"
-); /* 디폴트 값에서 변경 /src 추가 */
+app.set("views",process.cwd() + "/src/views"); /* 디폴트 값에서 변경 /src 추가 */
 
 app.use(logger);
 
@@ -29,7 +27,7 @@ app.use(logger);
 // 데이터 파싱기능
 app.use(express.urlencoded({ extended: true }));
 
-// session
+// session 저장소
 // route 사용하기 전에 사용(middleware이니까)
 // 이 미들웨어가 사이트로 들어오는 모두를 기억
 // 브라우저가 서버에 요청 > 서버는 session 미들웨어가 브라우저한테 텍스트를 보낸다
@@ -43,12 +41,7 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  req.sessionStore.all((error, sessions) => {
-    console.log(sessions);
-    next();
-  });
-});
+app.use(localsMiddlewares);
 
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
