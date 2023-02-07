@@ -67,6 +67,7 @@ export const postLogin = async (req, res) => {
   }
 
   // 세션에 정보를 추가 ↓
+  // 세션을 수정하는 곳 (초기화 하는 부분)
   req.session.loggedIn = true;
   req.session.user = user;
   return res.redirect("/");

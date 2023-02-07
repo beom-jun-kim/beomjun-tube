@@ -3,6 +3,7 @@ import "./models/video.js";
 import express, { application } from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 // default 로 선언했기 때문에 이름을 어떤 것으로 하든 상관X
 import rootRouter from "./routers/rootRouter.js";
@@ -15,7 +16,10 @@ const app = express();
 const logger = morgan("dev");
 
 app.set("view engine", "pug"); /* express는 views 디렉토리에서 pug를 찾는다 */
-app.set("views",process.cwd() + "/src/views"); /* 디폴트 값에서 변경 /src 추가 */
+app.set(
+  "views",
+  process.cwd() + "/src/views"
+); /* 디폴트 값에서 변경 /src 추가 */
 
 app.use(logger);
 
@@ -34,10 +38,21 @@ app.use(express.urlencoded({ extended: true }));
 // 방문시 express가 세션 id 생성 > 브라우저가 받음 > 쿠키에 세션 id 저장 > express에서도 해당 세션 DB에 저장(서버가 재부팅되면 초기화되기에)
 app.use(
   session({
+
     // 옵션설정
     secret: "안녕. 만나서 반가워",
-    resave: true,
-    saveUninitialized: true,
+
+    // 모든 request마다 세션의 변경사항 있든 없든 세션을 다시 저장
+    // flase를 주는 이유 : 변경사항 없을시 다시 저장하면 비효율. 충돌방지 등
+    resave: false,
+
+    // 세션을 수정할 때만 세션을 DB에 저장. 쿠키에 넘겨주는 설정 (로그인한 유저에게만 쿠키를 주도록 설정)
+    // flase를 주는 이유 : uninitialized 상태인 세션을 강제로 저장하면 저장공간 부족 현상, 쿠키 사용정책 준수
+    // uninitialized 상태 : 아무 작업이 가해지지 않는 초기 상태의 세션
+    saveUninitialized: false,
+
+    // database 연결
+    store: MongoStore.create({mongoUrl: "mongodb://127.0.0.1:27017/webtube"}),
   })
 );
 
@@ -48,6 +63,5 @@ app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 
 export default app;
-
 
 // test test test test test
