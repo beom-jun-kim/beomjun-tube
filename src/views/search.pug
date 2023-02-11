@@ -1,0 +1,12 @@
+extends base
+include mixins/video
+
+block content 
+    form(method="GET")
+        input(placeholder="검색어를 입력하세요." type="text" name="keyword")
+        input(type="submit" value="검색")
+
+    each video in videos 
+        +video(video)
+
+          

@@ -1,0 +1,13 @@
+extends base
+
+block content
+    if error_message
+        span=error_message
+    form(method="POST")
+        input(name="name", type="text", required , placeholder="이름을 입력하여 주세요")
+        input(name="username", type="text", required, placeholder="아이디를 입력하여 주세요")
+        input(name="password", type="password", required, placeholder="비밀번호를 입력하여 주세요")
+        input(name="password2", type="password", required, placeholder="비밀번호 확인")
+        input(name="location", type="text", required, placeholder="주소를 입력하여 주세요")
+        input(name="email", type="email", required, placeholder="이메일을 입력하여 주세요")
+        input(type="submit", value="가입하기")

@@ -1,0 +1,11 @@
+extends base
+include mixins/video 
+    
+block content
+    ul
+        //- videos arr 안의 각 ele에 대해서 list item을 만들어서 arr 안에 넣어주고 있다
+        //- mixin 안에 넣어줌
+        each video in videos
+            +video(video)
+        else 
+            li 죄송합니다 아무것도 찾지 못했습니다
