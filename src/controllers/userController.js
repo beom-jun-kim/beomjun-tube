@@ -1,4 +1,5 @@
 import userModel from "../models/user.js";
+import fetch from "node-fetch";
 import bcrypt from "bcrypt"; /* 얘의 매소드를 쓰려면 임포트 해야함 */
 
 export const getJoin = (req, res) => {
@@ -59,7 +60,7 @@ export const postLogin = async (req, res) => {
 
   //유저가 입력한 비밀번호와 해시된 비밀번호 비교
   const match = await bcrypt.compare(password, user.password);
-  if(!match) {
+  if (!match) {
     return res.status(400).render("login", {
       pageTitle,
       error_message: "존재하지 않는 비밀번호입니다",
@@ -76,21 +77,73 @@ export const postLogin = async (req, res) => {
 export const startGithubLogin = (req, res) => {
   const baseUrl = "https://github.com/login/oauth/authorize";
   const config = {
-    client_id : "4863668c3b3ef4d5d112",
+    client_id: process.env.GIT_CLIENT_ID,
     allow_signup: false,
-    scope : "read:user user:email",
-  }
+    scope: "read:user user:email",
+  };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
   return res.redirect(finalUrl);
-}
+};
 
-export const finishGithubLogin = (req, res) => {
-  
-}
+export const finishGithubLogin = async (req, res) => {
+  const baseUrl = "https://github.com/login/oauth/access_token";
+
+  // POST Request를 할 때, 반드시 필요한 파라미터들 : client_id, client_secret, code
+  // 얘네들을 access_token 으로 바꾼다
+  const config = {
+    client_id: process.env.GIT_CLIENT_ID,
+    client_secret: process.env.GIT_CLIENT_SECRET,
+
+    // req.query는 code를 받는다 : 유효기간은 10분
+    code: req.query.code,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  const tokenRequest = await (
+    await fetch(finalUrl, {
+      method: "POST",
+
+      // JSON을 return받기 위해서 이걸 보내야함 : 그렇지 않을시 github이 text로 응답
+      headers: {
+        Accept: "application/json",
+      },
+    })
+  ).json();
+
+  // https://api.github.com/user 를 통해 인증을 위한 access_token을 보내줘야됨
+  // access_token을 이용해 github api로 이동
+  // access_token은 scope에 적은 내용에 대해서만 허용
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const apiUrl = "https://api.github.com";
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    console.log("userData", userData);
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const email = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if(!email) {
+      return res.redirect("/login");  
+    }
+    ////////
+  } else {
+    return res.redirect("/login");
+  }
+};
 
 export const logout = (req, res) => res.render("logout");
 
 export const see = (req, res) => res.render("see");
-
-// test
