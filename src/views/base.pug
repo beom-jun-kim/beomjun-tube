@@ -21,9 +21,9 @@ html(lang="ko")
                     if loggedIn
 
                         li
-                            a(href="/logout") 로그아웃
-                        li
                             a(href="/my-profile") #{loggedInUser.name}의 프로필
+                        li
+                            a(href="/users/logout") 로그아웃
                     else 
                         li
                             a(href="/login") 로그인

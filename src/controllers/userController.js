@@ -42,15 +42,16 @@ export const postJoin = async (req, res) => {
 };
 export const edit = (req, res) => res.render("Edit USer");
 
-export const remove = (req, res) => res.render("Remove User");
-
 export const getLogin = (req, res) => {
   return res.render("login", { pageTitle: "Login" });
 };
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "Login";
-  const user = await userModel.findOne({ username });
+  const user = await userModel.findOne({
+    username,
+    socialOnly: false /* github로 로그인했는지 웹사이트 아이디로 로그인 했는지 잊어버리기 때문에 */,
+  });
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
@@ -126,8 +127,6 @@ export const finishGithubLogin = async (req, res) => {
       })
     ).json();
 
-    console.log("userData", userData);
-
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -140,8 +139,6 @@ export const finishGithubLogin = async (req, res) => {
       (email) => email.primary === true && email.verified === true
     );
 
-    console.log(emailObj);
-
     if (!emailObj) {
       return res.redirect("/login");
     }
@@ -149,16 +146,12 @@ export const finishGithubLogin = async (req, res) => {
     // "해당 email을 가진 user가 이미 있는지 찾고" 로그인 승인
     // "같은 email을 가진 user가 이미 있다면" 그 유저를 로그인 시켜줌
     // 다시 깃헙이 주는 list에서 primary이면서 verified된 email 객체를 찾아야한다
-    const existingUser = await userModel.findOne({ email: emailObj.email });
-    if (existingUser) {
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
-    } else {
-      const user = await userModel.create({
+    let user = await userModel.findOne({ email: emailObj.email });
+    if (!user) {
+      user = await userModel.create({
         name: userData.name,
         username: userData.login,
-        password:"",
+        password: "",
 
         // github을 이용해 계정을 만들었다면 password는 없다
         // 그렇게 되면 username과 password form을 사용할 수 없다
@@ -166,15 +159,19 @@ export const finishGithubLogin = async (req, res) => {
         loction: userData.loction,
         email: emailObj.email,
       });
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
     }
+
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
   } else {
     return res.redirect("/login");
   }
 };
 
-export const logout = (req, res) => res.render("logout");
+export const logout = (req, res) => {
+  req.session.destroy();
+  return res.redirect("/");
+};
 
 export const see = (req, res) => res.render("see");

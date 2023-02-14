@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   // 로그인 페이지에서 유저가 email로 로그인하려는데 password가 없을때 유용
   socialOnly: { type: Boolean, default: false },
 
+  avatarUrl: String,
   username: { type: String, required: true, unique: true },
   password: { type: String },
   location: String,
