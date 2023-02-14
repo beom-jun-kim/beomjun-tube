@@ -124,7 +124,9 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
+
     console.log("userData", userData);
+
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -132,13 +134,41 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-    const email = emailData.find(
+
+    const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
     );
-    if(!email) {
-      return res.redirect("/login");  
+
+    console.log(emailObj);
+
+    if (!emailObj) {
+      return res.redirect("/login");
     }
-    ////////
+
+    // "해당 email을 가진 user가 이미 있는지 찾고" 로그인 승인
+    // "같은 email을 가진 user가 이미 있다면" 그 유저를 로그인 시켜줌
+    // 다시 깃헙이 주는 list에서 primary이면서 verified된 email 객체를 찾아야한다
+    const existingUser = await userModel.findOne({ email: emailObj.email });
+    if (existingUser) {
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      const user = await userModel.create({
+        name: userData.name,
+        username: userData.login,
+        password:"",
+
+        // github을 이용해 계정을 만들었다면 password는 없다
+        // 그렇게 되면 username과 password form을 사용할 수 없다
+        socialOnly: true,
+        loction: userData.loction,
+        email: emailObj.email,
+      });
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    }
   } else {
     return res.redirect("/login");
   }
