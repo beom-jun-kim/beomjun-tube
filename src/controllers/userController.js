@@ -56,25 +56,24 @@ export const getEdit = async (req, res) => {
     body: { name, username, email, location },
   } = req;
 
-  try {
-    const updatedUser = await userModel.findByIdAndUpdate(
-      _id,
-      {
-        name,
-        username,
-        email,
-        location,
-      },
+  if (req.session.user.username !== req.body.username) {
+    const exists = await userModel.exists({ username });
+    if (exists) {
+      return res.render("edit-profile", {
+        pageTitle,
+        error_message: "이미 존재하는 아이디입니다",
+      });
+    }
+  }
 
-      { new: true }
-    );
-    req.session.user = updatedUser;
-    res.redirect("/user/edit");
-  } catch (error) {
-    return res.status(400).render("edit-profile", {
-      pageTitle,
-      error_message: "이미 존재하는 이메일 또는 아이디입니다",
-    });
+  if (req.session.user.email !== req.body.email) {
+    const exists = await userModel.exists({ email });
+    if (exists) {
+      return res.render("edit-profile", {
+        pageTitle,
+        error_message: "이미 존재하는 아이디입니다",
+      });
+    }
   }
 
   return res.redirect("/users/edit");
