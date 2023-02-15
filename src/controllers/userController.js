@@ -65,6 +65,41 @@ export const getEdit = async (req, res) => {
     email,
     location,
   });
+  
+  // 1. req.session.user의 emiall && username 꺼낸다
+  // 2. 이미 있는 req.session.user의 emiall && username을 찾는다
+  // 3. 랜더한다
+  
+  const sessionEmail = res.session.user.email;
+  const sessionUsername = res.session.user.username;
+
+  // sessionEmail : db에 저장된 email , email : form에 입력한 email
+  if (sessionEmail !== email) {
+    const ExistEmail = await userModel.findOne({ email });
+    const findEmail = Boolean(ExistEmail);
+    if (findEmail) {
+      return res
+        .status(400)
+        .render("edit-profile", {
+          pageTitle,
+          error_message: "이미 존재하는 이메일 입니다",
+        });
+    }
+  }
+
+  if (sessionUsername !== username) {
+    const ExistUsername = await userModel.findOne({ username });
+    const findUsername = Boolean(ExistUsername);
+    if (findUsername) {
+      return res
+        .status(400)
+        .render("edit-profile", {
+          pageTitle,
+          error_message: "이미 존재하는 아이디 입니다",
+        });
+    }
+  }
+  
   return res.redirect("/users/edit");
 };
 
