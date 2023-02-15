@@ -42,11 +42,13 @@ export const postJoin = async (req, res) => {
 };
 
 export const getEdit = async (req, res) => {
+  const pageTitle = "Edit profile";
+
   // session에서 user를 찾고 user에서 id를 찾는다
   // 혼합하기 좋은 문법 (ES6)
   // (const id = req.session.user.id와 같음)
-
-  // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
+  
+  // session update
   const {
     session: {
       user: { _id },
@@ -54,52 +56,27 @@ export const getEdit = async (req, res) => {
     body: { name, username, email, location },
   } = req;
 
-  await userModel.findByIdAndUpdate(_id, {
-    //session 업데이트시키기
-    // req.session.user안의 내용을 밖으로 꺼내준다 
-    // 젤 위에 선언, ...req.session.user에 있는 내용을 덮어쓰기
-    ...req.session.user,
-    
-    name,
-    username,
-    email,
-    location,
-  });
-  
-  // 1. req.session.user의 emiall && username 꺼낸다
-  // 2. 이미 있는 req.session.user의 emiall && username을 찾는다
-  // 3. 랜더한다
-  
-  const sessionEmail = res.session.user.email;
-  const sessionUsername = res.session.user.username;
+  try {
+    const updatedUser = await userModel.findByIdAndUpdate(
+      _id,
+      {
+        name,
+        username,
+        email,
+        location,
+      },
 
-  // sessionEmail : db에 저장된 email , email : form에 입력한 email
-  if (sessionEmail !== email) {
-    const ExistEmail = await userModel.findOne({ email });
-    const findEmail = Boolean(ExistEmail);
-    if (findEmail) {
-      return res
-        .status(400)
-        .render("edit-profile", {
-          pageTitle,
-          error_message: "이미 존재하는 이메일 입니다",
-        });
-    }
+      { new: true }
+    );
+    req.session.user = updatedUser;
+    res.redirect("/user/edit");
+  } catch (error) {
+    return res.status(400).render("edit-profile", {
+      pageTitle,
+      error_message: "이미 존재하는 이메일 또는 아이디입니다",
+    });
   }
 
-  if (sessionUsername !== username) {
-    const ExistUsername = await userModel.findOne({ username });
-    const findUsername = Boolean(ExistUsername);
-    if (findUsername) {
-      return res
-        .status(400)
-        .render("edit-profile", {
-          pageTitle,
-          error_message: "이미 존재하는 아이디 입니다",
-        });
-    }
-  }
-  
   return res.redirect("/users/edit");
 };
 
