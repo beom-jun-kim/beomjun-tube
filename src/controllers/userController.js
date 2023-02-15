@@ -55,12 +55,17 @@ export const getEdit = async (req, res) => {
   } = req;
 
   await userModel.findByIdAndUpdate(_id, {
+    //session 업데이트시키기
+    // req.session.user안의 내용을 밖으로 꺼내준다 
+    // 젤 위에 선언, ...req.session.user에 있는 내용을 덮어쓰기
+    ...req.session.user,
+    
     name,
     username,
     email,
     location,
   });
-  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+  return res.redirect("/users/edit");
 };
 
 export const postEdit = (req, res) => {
