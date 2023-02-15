@@ -42,13 +42,17 @@ export const postJoin = async (req, res) => {
 };
 
 export const getEdit = async (req, res) => {
+  return res.redirect("/");
+};
+
+export const postEdit = (req, res) => {
   const pageTitle = "Edit profile";
 
   // session에서 user를 찾고 user에서 id를 찾는다
   // 혼합하기 좋은 문법 (ES6)
   // (const id = req.session.user.id와 같음)
-  
-  // session update
+
+  // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
   const {
     session: {
       user: { _id },
@@ -71,16 +75,27 @@ export const getEdit = async (req, res) => {
     if (exists) {
       return res.render("edit-profile", {
         pageTitle,
-        error_message: "이미 존재하는 아이디입니다",
+        error_message: "이미 존재하는 이메일입니다",
       });
     }
   }
 
-  return res.redirect("/users/edit");
-};
+  // findByIdAndUpdate는 update 되기 전의 데이터를 return
+  // new:true를 설정해주면 findByIdAndUpdate가 업데이트 된 데이터를 return
+  // 세개의 인자  : 첫번째는 업데이트 하려는 id , 두번째는 업데이트 하려는 정보(obj), 세번째는 options
+  const updateUser = await userModel.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    }, 
 
-export const postEdit = (req, res) => {
-  return res.redirect("/");
+    {new:true}
+  );
+  req.session.user = updateUser;
+  return res.redirect("/users/edit");
 };
 
 export const getLogin = (req, res) => {
