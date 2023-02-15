@@ -41,13 +41,31 @@ export const postJoin = async (req, res) => {
   }
 };
 
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
+  // session에서 user를 찾고 user에서 id를 찾는다
+  // 혼합하기 좋은 문법 (ES6)
+  // (const id = req.session.user.id와 같음)
+
+  // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, username, email, location },
+  } = req;
+
+  await userModel.findByIdAndUpdate(_id, {
+    name,
+    username,
+    email,
+    location,
+  });
   return res.render("edit-profile", { pageTitle: "Edit Profile" });
-}
+};
 
 export const postEdit = (req, res) => {
   return res.redirect("/");
-}
+};
 
 export const getLogin = (req, res) => {
   return res.render("login", { pageTitle: "Login" });
@@ -134,6 +152,8 @@ export const finishGithubLogin = async (req, res) => {
       })
     ).json();
 
+    console.log("userData", userData);
+
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -141,6 +161,8 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
+
+    console.log("emailData", emailData);
 
     const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
