@@ -60,7 +60,22 @@ export const postEdit = async (req, res) => {
     body: { name, username, email, location },
   } = req;
 
-  if (req.session.user.username !== req.body.username) {
+  const sessionUsername = req.session.user.username;
+  const sessionEmail = req.session.user.email;
+  const formUsername = req.body.username;
+  const formEmail = req.body.email;
+
+  if (sessionUsername !== formUsername && sessionEmail !== formEmail) {
+    const exists = await userModel.exists({ $or: [{ username }, { email }] });
+    if (exists) {
+      return res.render("edit-profile", {
+        pageTitle,
+        error_message: "이미 존재하는 아이디와 이메일 입니다",
+      });
+    }
+  }
+
+  if (sessionUsername !== formUsername) {
     const exists = await userModel.exists({ username });
     if (exists) {
       return res.render("edit-profile", {
@@ -70,7 +85,7 @@ export const postEdit = async (req, res) => {
     }
   }
 
-  if (req.session.user.email !== req.body.email) {
+  if (sessionEmail !== formEmail) {
     const exists = await userModel.exists({ email });
     if (exists) {
       return res.render("edit-profile", {
