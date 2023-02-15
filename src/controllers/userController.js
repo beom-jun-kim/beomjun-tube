@@ -41,11 +41,11 @@ export const postJoin = async (req, res) => {
   }
 };
 
-export const getEdit = async (req, res) => {
-  return res.redirect("/");
+export const getEdit = (req, res) => {
+  return res.render("/users/edit");
 };
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
   const pageTitle = "Edit profile";
 
   // session에서 user를 찾고 user에서 id를 찾는다
