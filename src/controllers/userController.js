@@ -42,7 +42,7 @@ export const postJoin = async (req, res) => {
 };
 
 export const getEdit = (req, res) => {
-  return res.render("/users/edit");
+  return res.render("edit-profile");
 };
 
 export const postEdit = async (req, res) => {
