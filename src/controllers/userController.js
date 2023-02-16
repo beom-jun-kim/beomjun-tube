@@ -105,9 +105,9 @@ export const postEdit = async (req, res) => {
       email,
       username,
       location,
-    }, 
+    },
 
-    {new:true}
+    { new: true }
   );
   req.session.user = updateUser;
   return res.redirect("/users/edit-profile");
@@ -247,6 +247,51 @@ export const finishGithubLogin = async (req, res) => {
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+export const postChangePassword = async (req, res) => {
+  const pageTitle = "Change Password";
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPassword, newPassword, newPasswordCheck },
+  } = req;
+
+  // user를 찾으면 save() 함수 사용 가능
+  // user 찾아서 새로운 비번을 사용할 비번에 할당
+  // 저장
+  // session: {user: { _id, password }} 여기서 session에 있는 hash된 비밀번호가 기존 비밀번호와 일치하는지 확인하고 있다
+  // 항상 업데이트 된 password를 사용(user.password)
+  const user = await userModel.findById(_id);
+
+  const match = await bcrypt.compare(oldPassword, user.password);
+  if (!match) {
+    return res.status(400).render("users/change-password", {
+      pageTitle,
+      error_message: "존재하지 않는 비밀번호입니다",
+    });
+  }
+
+  if (newPassword !== newPasswordCheck) {
+    return res.status(400).render("users/change-password", {
+      pageTitle,
+      error_message: "비밀번호가 일치하지 않습니다",
+    });
+  }
+
+  user.password = newPassword;
+
+  // 스키마에 있는 middleware 함수 실행, hash시키기
+  // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다 
+  await user.save();
+  return res.redirect("/users/logout", { pageTitle });
 };
 
 export const see = (req, res) => res.render("see");
