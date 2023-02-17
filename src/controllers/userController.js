@@ -55,9 +55,12 @@ export const postEdit = async (req, res) => {
   // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl }, /* user에는 avatarUrl이 있다(스키마) : 기존 avatarUrl을 찾을 수 있다 */
     },
     body: { name, username, email, location },
+
+    // req.file로 저장
+    file,
   } = req;
 
   const sessionUsername = req.session.user.username;
@@ -101,6 +104,10 @@ export const postEdit = async (req, res) => {
   const updateUser = await userModel.findByIdAndUpdate(
     _id,
     {
+
+      // 파일이(user가 form에 파일 입력을 했으면) 존재하면 path로 , 아니면 기존으로
+      // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
+      avatarUrl : file ? `/${file.path}` : avatarUrl,
       name,
       email,
       username,
@@ -244,16 +251,11 @@ export const finishGithubLogin = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
-  req.session.destroy();
-  return res.redirect("/");
-};
-
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
     return res.redirect("/");
   }
-  return res.render("/change-password", { pageTitle: "Change Password" });
+  return res.render("change-password", { pageTitle: "Change Password" });
 };
 export const postChangePassword = async (req, res) => {
   const {
@@ -272,14 +274,14 @@ export const postChangePassword = async (req, res) => {
 
   const match = await bcrypt.compare(oldPassword, user.password);
   if (!match) {
-    return res.status(400).render("/change-password", {
+    return res.status(400).render("change-password", {
       pageTitle: "Change Password",
       error_message: "존재하지 않는 비밀번호입니다",
     });
   }
 
   if (newPassword !== newPasswordCheck) {
-    return res.status(400).render("/change-password", {
+    return res.status(400).render("change-password", {
       pageTitle: "Change Password",
       error_message: "비밀번호가 일치하지 않습니다",
     });
@@ -288,9 +290,15 @@ export const postChangePassword = async (req, res) => {
   user.password = newPassword;
 
   // 스키마에 있는 middleware 함수 실행, hash시키기
-  // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다 
+  // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다
   await user.save();
   return res.redirect("/users/logout");
+
+};
+
+export const logout = (req, res) => {
+  req.session.destroy();
+  return res.redirect("/");
 };
 
 export const see = (req, res) => res.render("see");

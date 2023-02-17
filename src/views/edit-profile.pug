@@ -3,7 +3,14 @@ extends base
 block content
     if error_message
         span=error_message
-    form(method="POST") 
+
+    //- 절대 경로로 : upload라는 폴더가 루트에 있으니
+    img(src=loggedInUser.avatarUrl, width=200, height=250)
+
+    //- entype : form이 다르게 encode된다
+    form(method="POST" enctype="multipart/form-data")
+        label(for="avatar") Avatar
+        input(type="file" id="avatar" name="avatar" accept="image/*")
         input(name="name", type="text", required , placeholder="이름을 입력하여 주세요" value=loggedInUser.name)
         input(name="username", type="text", required, placeholder="아이디를 입력하여 주세요" value=loggedInUser.username)
         input(name="email", type="email", required, placeholder="이메일을 입력하여 주세요" value=loggedInUser.email)
@@ -11,4 +18,4 @@ block content
         input(type="submit", value="변경하기")
         if !loggedInUser.socialOnly
             hr
-            a(href="/change-password") 비밀번호 바꾸기 →
+            a(href="change-password") 비밀번호 바꾸기 →

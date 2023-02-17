@@ -9,15 +9,32 @@ import {
   postChangePassword,
   getChangePassword,
 } from "../controllers/userController.js";
-import {protectorMiddleware,publicOnlyMiddleware} from "../middlewares.js";
+import {
+  protectorMiddleware,
+  publicOnlyMiddleware,
+  uploadMiddleware,
+} from "../middlewares.js";
 
 const userRouter = express.Router();
 
 userRouter.get(":id", see);
-userRouter.get("/logout",protectorMiddleware, logout);
-userRouter.route("/edit-profile").all(protectorMiddleware).get(getEdit).post(postEdit);
-userRouter.route("/change-password").all(protectorMiddleware).get(getChangePassword).post(postChangePassword);
-userRouter.get("/github/start",publicOnlyMiddleware, startGithubLogin);
-userRouter.get("/github/finish",publicOnlyMiddleware, finishGithubLogin);
+userRouter.get("/logout", protectorMiddleware, logout);
+userRouter
+  .route("/edit-profile")
+  .all(protectorMiddleware)
+  .get(getEdit)
+
+  // 이름이 avatar인 파일 수락 , req에 보내진다
+  .post(
+    uploadMiddleware.single("avatar"),
+    postEdit
+  ); /* 옵션 : fields, none, single, arry (파일을 upload 시킨다)*/
+userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
+userRouter.get("/github/finish", publicOnlyMiddleware, finishGithubLogin);
+userRouter
+  .route("/change-password")
+  .all(protectorMiddleware)
+  .get(getChangePassword)
+  .post(postChangePassword);
 
 export default userRouter;
