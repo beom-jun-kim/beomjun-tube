@@ -64,14 +64,11 @@ app.use(
 
 app.use(localsMiddlewares);
 
+//  Express에 내장된 미들웨어 기능 : express.static()
+// staic()에는 노출시키고 싶은 폴더의 이름
+app.use("/uploads", express.static("uploads"))
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 
 export default app;
-
-// test test test test
-// test test test test
-// test test test test
-// test test test test
-// test test test test

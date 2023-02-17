@@ -1,5 +1,6 @@
-export const localsMiddlewares = (req, res, next) => {
+import multer from "multer";
 
+export const localsMiddlewares = (req, res, next) => {
   // 왜 res.locals에 담아서 하는가?
   // res에 locals이라는 obj가 있는데 템플릿에서 locals에 접근 가능 (템플릿과 data 공유)
 
@@ -19,19 +20,23 @@ export const localsMiddlewares = (req, res, next) => {
 };
 
 export const protectorMiddleware = (req, res, next) => {
-    if (req.session.loggedIn) {
-      return next();
-    } else {
-      return res.redirect("/login");
-    }
-  };
-  
-  export const publicOnlyMiddleware = (req, res, next) => {
-    if (!req.session.loggedIn) {
-      return next();
-    } else {
-      return res.redirect("/");
-    }
-  };
+  if (req.session.loggedIn) {
+    return next();
+  } else {
+    return res.redirect("/login");
+  }
+};
 
-  
+export const publicOnlyMiddleware = (req, res, next) => {
+  if (!req.session.loggedIn) {
+    return next();
+  } else {
+    return res.redirect("/");
+  }
+};
+
+
+// dest 또는 storage: 파일을 저장할 위치
+// gitignore에 경로 추가 
+// // db에 파일을 저장하면 안됨. 파일의 위치를 저장 : db는 파일 저장을 위한게 아니다
+export const uploadMiddleware = multer({ dest: "uploads/" });
