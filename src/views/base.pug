@@ -15,16 +15,16 @@ html(lang="ko")
                     li
                         a(href="/search") 검색
 
-                    li 
-                        a(href="/videos/upload") 비디오 업로드
-
                     if loggedIn
-
                         li
-                            a(href="/logout") 로그아웃
+                            a(href="/videos/upload") 영상 업로드
+                        li 
+                            a(href="/users/edit-profile") 프로필 변경
                         li
-                            a(href="/my-profile") #{loggedInUser.name}의 프로필
-                    else 
+                            a(href="/users/my-profile") #{loggedInUser.name}의 프로필
+                        li
+                            a(href="/users/logout") 로그아웃
+                    else
                         li
                             a(href="/login") 로그인
                         li
