@@ -253,10 +253,9 @@ export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
     return res.redirect("/");
   }
-  return res.render("users/change-password", { pageTitle: "Change Password" });
+  return res.render("/change-password", { pageTitle: "Change Password" });
 };
 export const postChangePassword = async (req, res) => {
-  const pageTitle = "Change Password";
   const {
     session: {
       user: { _id },
@@ -273,15 +272,15 @@ export const postChangePassword = async (req, res) => {
 
   const match = await bcrypt.compare(oldPassword, user.password);
   if (!match) {
-    return res.status(400).render("users/change-password", {
-      pageTitle,
+    return res.status(400).render("/change-password", {
+      pageTitle: "Change Password",
       error_message: "존재하지 않는 비밀번호입니다",
     });
   }
 
   if (newPassword !== newPasswordCheck) {
-    return res.status(400).render("users/change-password", {
-      pageTitle,
+    return res.status(400).render("/change-password", {
+      pageTitle: "Change Password",
       error_message: "비밀번호가 일치하지 않습니다",
     });
   }
@@ -291,7 +290,7 @@ export const postChangePassword = async (req, res) => {
   // 스키마에 있는 middleware 함수 실행, hash시키기
   // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다 
   await user.save();
-  return res.redirect("/users/logout", { pageTitle });
+  return res.redirect("/users/logout", { pageTitle : "Change Password"});
 };
 
 export const see = (req, res) => res.render("see");
