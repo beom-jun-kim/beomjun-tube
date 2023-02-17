@@ -290,7 +290,7 @@ export const postChangePassword = async (req, res) => {
   // 스키마에 있는 middleware 함수 실행, hash시키기
   // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다 
   await user.save();
-  return res.redirect("/users/logout", { pageTitle : "Change Password"});
+  return res.redirect("/users/logout");
 };
 
 export const see = (req, res) => res.render("see");
