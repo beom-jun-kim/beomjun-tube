@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 const videoSchema = new mongoose.Schema({
   // 누군가 홈페이지를 해킹하거나 개발자도구로 조작을 할 수도 있으니 database에 옵션 설정
   title: { type: String, required: true, maxLength: 30 },
+  fileUrl: { type: String, required: true },
   description: { type: String, required: true, maxLength: 150 },
   createdAt: { type: Date, required: true, default: Date.now },
   hashtags: [{ type: String, trim: true }],
@@ -15,7 +16,7 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
-// middleware 
+// middleware
 // 그렇지만 findByIdAndUpdate()에서는 save 훅업이 발생하지 않음
 
 // videoSchema.pre("save", async function () {

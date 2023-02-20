@@ -102,6 +102,10 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+
+  // file안에는 path가 있다
+  // es6문법 : const { path: fileUrl } = req.file;
+  const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
   try {
     await movieModel.create({
@@ -109,6 +113,7 @@ export const postUpload = async (req, res) => {
       // id는 몽구스에서 부여해준다
       title,
       description,
+      fileUrl,
       hashtags: movieModel.formatHashtags(hashtags),
     });
     return res.redirect("/");

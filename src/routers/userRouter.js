@@ -12,7 +12,7 @@ import {
 import {
   protectorMiddleware,
   publicOnlyMiddleware,
-  uploadMiddleware,
+  avatarUpload,
 } from "../middlewares.js";
 
 const userRouter = express.Router();
@@ -26,7 +26,7 @@ userRouter
 
   // 이름이 avatar인 파일 수락 , req에 보내진다
   .post(
-    uploadMiddleware.single("avatar"),
+    avatarUpload.single("avatar"),
     postEdit
   ); /* 옵션 : fields, none, single, arry (파일을 upload 시킨다)*/
 userRouter.get("/github/start", publicOnlyMiddleware, startGithubLogin);
