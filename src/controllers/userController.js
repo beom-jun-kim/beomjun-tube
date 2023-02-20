@@ -1,4 +1,5 @@
 import userModel from "../models/user.js";
+import movieModel from "../models/video.js";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt"; /* 얘의 매소드를 쓰려면 임포트 해야함 */
 
@@ -308,8 +309,12 @@ export const see = async (req, res) => {
   if (!user) {
     return res.status(404).render("404", { pageTitle: "not found" });
   }
+
+  // movieModel의 owner가 params의 id와 같은 비디오들을 찾을 것이다
+  const videos = await movieModel.find({owner: user._id});
   return res.render("my-profile", {
     pageTitle: `${user.name}님의 프로필`,
     user,
+    videos,
   });
 };

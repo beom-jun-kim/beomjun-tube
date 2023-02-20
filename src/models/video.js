@@ -19,7 +19,7 @@ const videoSchema = new mongoose.Schema({
   // ref : mongoose에게 owner에 id를 저장하겠다고 알려줘야하기 때문
   // 어떤 model의 objectId인지 (영상 소유자의 id를 video에 저장)
   // 스키마와 함께 모델로 선언된 모델명 여기선 User => objectId가 userModel에서 온다고 알려주는 것
-  owner: { type: mongoose.Schema.Types.ObjectId, required: true,  ref:"User"},
+  owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
 });
 
 // middleware

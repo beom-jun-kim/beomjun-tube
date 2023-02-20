@@ -12,8 +12,9 @@ block content
     
     
     div 
-        small #{owner.name}님이 업로드 하셨습니다
-    if String(video.owner) === String(loggedInUser._id)
+        small 
+            a(href=`/users/${video.owner._id}`) #{video.owner.name}님이 업로드 하셨습니다
+    if String(video.owner._id) === String(loggedInUser._id)
         br
         a(href=`${video.id}/edit`) Edit Video →
         br
