@@ -1,9 +1,14 @@
 extends base
 
 block content
+
+    //- video로 변수가 선언이 되어있다 : videoControllers.js 에서 const video = await movieModel.findById(id);
+    video(src="/" + video.fileUrl, controls)
+
     //- ternary operator (삼항연산자)
-    p=video.description
-    small=video.createdAt
+    div
+        p=video.descriptionfileUrl
+        small=video.createdAt
     //- relative , absoulte url : 앞에 /를 지우면 root  url이 나타난다 , /를 추가하면 어디에 있든 그곳으로 이동
     //- 밑의 경우 이미 videos 경로에 있기 때문에 앞의 /를 지우고 뒤에것부터 적어도 된다
     //- 릴레이티드가 /가 없는거

@@ -35,8 +35,15 @@ export const publicOnlyMiddleware = (req, res, next) => {
   }
 };
 
-
 // dest 또는 storage: 파일을 저장할 위치
-// gitignore에 경로 추가 
+// gitignore에 경로 추가
 // // db에 파일을 저장하면 안됨. 파일의 위치를 저장 : db는 파일 저장을 위한게 아니다
-export const uploadMiddleware = multer({ dest: "uploads/" });
+// limits : fileSize (multer 옵션) , 파일 최대 크기 지정
+export const avatarUpload = multer({
+  dest: "uploads/avatars/",
+  limits: { fileSize: 5000000 },
+});
+export const videoUpload = multer({
+  dest: "uploads/videos/",
+  limits: { fileSize: 8000000 },
+});
