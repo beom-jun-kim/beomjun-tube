@@ -1,4 +1,5 @@
 import movieModel from "../models/video.js";
+import userModel from "../models/user.js";
 
 /* 
 
@@ -30,10 +31,14 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await movieModel.findById(id);
+
+  // console.log(video) => video에는 owner가 있고 owner에는 userModel의 ID가 있다
+  const owner = await userModel.findById(video.owner);
+
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
-  return res.render("watch", { pageTitle: video.title, video });
+  return res.render("watch", { pageTitle: video.title, video, owner });
 };
 
 export const getEdit = async (req, res) => {
@@ -77,17 +82,15 @@ export const search = async (req, res) => {
   let videos = [];
   if (keyword) {
     videos = await movieModel.find({
-
       // regex 연산자 : regular expression의 약자 (정규식표현에서 쓰는)
       // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드
       title: {
-
         // https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
         // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용
         // i : 대.소문자 구분X  ( ignore case 무시하다라는 뜻)
         // ^$ : keyword로 '시작하는' 제목
         // ${keyword}$ : keyword로 '끝나는' 제목
-        $regex: new RegExp(`^${keyword}`, "i")
+        $regex: new RegExp(`^${keyword}`, "i"),
       },
     });
   }
@@ -102,6 +105,11 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+  } = req;
 
   // file안에는 path가 있다
   // es6문법 : const { path: fileUrl } = req.file;
@@ -114,6 +122,7 @@ export const postUpload = async (req, res) => {
       title,
       description,
       fileUrl,
+      owner: _id,
       hashtags: movieModel.formatHashtags(hashtags),
     });
     return res.redirect("/");
