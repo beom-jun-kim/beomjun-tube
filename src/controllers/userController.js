@@ -55,7 +55,10 @@ export const postEdit = async (req, res) => {
   // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
   const {
     session: {
-      user: { _id, avatarUrl }, /* user에는 avatarUrl이 있다(스키마) : 기존 avatarUrl을 찾을 수 있다 */
+      user: {
+        _id,
+        avatarUrl,
+      } /* user에는 avatarUrl이 있다(스키마) : 기존 avatarUrl을 찾을 수 있다 */,
     },
     body: { name, username, email, location },
 
@@ -104,10 +107,9 @@ export const postEdit = async (req, res) => {
   const updateUser = await userModel.findByIdAndUpdate(
     _id,
     {
-
       // 파일이(user가 form에 파일 입력을 했으면) 존재하면 path로 , 아니면 기존으로
       // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
-      avatarUrl : file ? `/${file.path}` : avatarUrl,
+      avatarUrl: file ? `/${file.path}` : avatarUrl,
       name,
       email,
       username,
@@ -301,4 +303,14 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
-export const see = (req, res) => res.render("see");
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await userModel.findById(id);
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "not found" });
+  }
+  return res.render("my-profile", {
+    pageTitle: `${user.name}님의 프로필`,
+    user,
+  });
+};
