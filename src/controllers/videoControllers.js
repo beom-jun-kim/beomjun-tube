@@ -30,15 +30,16 @@ export const home = async (req, res) => {
 
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await movieModel.findById(id);
 
-  // console.log(video) => video에는 owner가 있고 owner에는 userModel의 ID가 있다
-  const owner = await userModel.findById(video.owner);
+  // populate() : 다른 컬렉션의 문서로 자동 교체하는 프로세스. 
+  // owner부분을 실제 userModel 데이터를 +하여 채워준다
+  // mongoose는 object id 가 userModel로 부터 온 것임을 안다
+  const video = await movieModel.findById(id).populate("owner");
 
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
-  return res.render("watch", { pageTitle: video.title, video, owner });
+  return res.render("watch", { pageTitle: video.title, video });
 };
 
 export const getEdit = async (req, res) => {
