@@ -306,16 +306,13 @@ export const logout = (req, res) => {
 
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await userModel.findById(id);
+  const user = await userModel.findById(id).populate("videos");
   if (!user) {
     return res.status(404).render("404", { pageTitle: "not found" });
   }
-
-  // movieModel의 owner가 params의 id와 같은 비디오들을 찾을 것이다
-  const videos = await movieModel.find({owner: user._id});
+  
   return res.render("my-profile", {
     pageTitle: `${user.name}님의 프로필`,
     user,
-    videos,
   });
 };

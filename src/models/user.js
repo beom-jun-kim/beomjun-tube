@@ -15,13 +15,23 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   location: String,
   email: { type: String, required: true, unique: true },
+
+  // 한명의 유저가 여러개의 비디오를 가지고 있으니 array로 (video model의 obj id로 채운다)
+  // video model에 연결된 obj id로 구성된 array
+  videos: [{type: mongoose.Schema.Types.ObjectId, ref: "Video"}],
 });
 
 // 저장전에 잠깐 가로채서 작업
 userSchema.pre("save", async function () {
-  // hash function 인자 (유저가 입력한 password, 해싱횟수, 콜백함수는 필요x await를 쓰고 있으니.)
-  // this는 create 되는 user를 가르킨다 (암호화를 시킨다음 저장)
-  this.password = await bcrypt.hash(this.password, 5);
+
+  
+  // 특정 조건에서만 비밀번호가 hash되도록 만들어줘야한다(비번이 수정되었을 경우에만)
+  if(this.isModified("password")){
+    
+    // this는 create 되는 user를 가르킨다 (암호화를 시킨다음 저장)
+    // hash function 인자 (유저가 입력한 password, 해싱횟수, 콜백함수는 필요x await를 쓰고 있으니.)
+    this.password = await bcrypt.hash(this.password, 5);
+  }
 });
 
 const userModel = mongoose.model("User", userSchema);
