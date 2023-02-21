@@ -31,7 +31,7 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
 
-  // populate() : 다른 컬렉션의 문서로 자동 교체하는 프로세스. 
+  // populate() : 다른 컬렉션의 문서로 자동 교체하는 프로세스.
   // owner부분을 실제 userModel 데이터를 +하여 채워준다
   // mongoose는 object id 가 userModel로 부터 온 것임을 안다
   const video = await movieModel.findById(id).populate("owner");
@@ -44,23 +44,40 @@ export const watch = async (req, res) => {
 
 export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    session: {
+      user: { _id },
+    },
+  } = req;
   const video = await movieModel.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
+  }
+
+  // 같은 type으로 지정해주지 않으면 서로 type이 달라 영상 소유주에게도 이 코드가 적용되는 버그가 일어난다
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
 };
 
 export const postEdit = async (req, res) => {
   const { id } = req.params;
+  const {
+    session: {
+      user: { _id },
+    },
+  } = req;
   const { title, description, hashtags } = req.body;
 
   // exists() : 존재 유무 확인 (video obj가 필요없음)
-  const video = await movieModel.exists({ _id: id });
+  const video = await movieModel.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
-
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   // findByIdAndUpdate(): 두개의 인자 id, 내용
   await movieModel.findByIdAndUpdate(id, {
     title,
@@ -68,13 +85,27 @@ export const postEdit = async (req, res) => {
     hashtags: movieModel.formatHashtags(hashtags),
   });
 
-  // 브라우저가 자동으로 이동하도록 하는 것
-  return res.redirect(`/videos/${id}`);
+  return res.redirect("/");
 };
 
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
+  const {
+    session: {
+      user: { _id },
+    },
+  } = req;
+  const video = await movieModel.findById(id);
+  // const user = await User.findById(_id);
+  if(!video){
+    return res.status(404).render("404", { pageTitle: "Video not found" });
+  }
+  if (String(video.owner) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
   await movieModel.findByIdAndDelete(id);
+  // user.videos.splice(user.videos.indexOf(id),1);
+  // user.save();
   return res.redirect("/");
 };
 
@@ -99,8 +130,6 @@ export const search = async (req, res) => {
   return res.render("search", { pageTitle: "Search", videos });
 };
 
-export const upload = (req, res) => res.send("upload video");
-
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload Video" });
 };
@@ -117,15 +146,22 @@ export const postUpload = async (req, res) => {
   const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
   try {
-    await movieModel.create({
+    const newVideo = await movieModel.create({
       // type의 유효성 검사: 선언한 type과 다르게 선언해도 mongoose가 올바르게 자동변환
       // id는 몽구스에서 부여해준다
+
+      // 업로드 될 영상의 id를 user model에도 저장해 줘야한다
       title,
       description,
       fileUrl,
       owner: _id,
       hashtags: movieModel.formatHashtags(hashtags),
     });
+    const user = await userModel.findById(_id);
+
+    // user model의 videos array에 newVideo._id를 넣는다
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     console.log(error);

@@ -2,7 +2,9 @@ extends base
 include mixins/video
 
 block content
-    each video in videos
+
+    //- userController.js에 see 컨트롤러에서 user로 video array를 보내주고 있기에
+    each video in user.videos
             +video(video)
     else 
         li 죄송합니다 아무것도 찾지 못했습니다
