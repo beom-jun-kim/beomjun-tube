@@ -17,7 +17,7 @@ import {
 
 const userRouter = express.Router();
 
-userRouter.get("/:id", see);
+userRouter.get("/:id([0-9a-f]{24})", see);
 userRouter.get("/logout", protectorMiddleware, logout);
 userRouter
   .route("/edit-profile")

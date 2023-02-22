@@ -309,9 +309,10 @@ export const see = async (req, res) => {
   if (!user) {
     return res.status(404).render("404", { pageTitle: "not found" });
   }
-  
+
   return res.render("my-profile", {
     pageTitle: `${user.name}님의 프로필`,
     user,
   });
+  
 };
