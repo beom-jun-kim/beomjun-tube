@@ -1,40 +1,42 @@
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/client/js/main.cjs",
+  entry: "./src/client/js/main.js",
   mode: "development",
+  watch: true, /* 결과화면 자동전환 */
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "css/styles.css",
+    }),
+  ],
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "assets", "js"),
+    filename: "js/main.js",
+    path: path.resolve(__dirname, "assets"),
+    clean: true, /* build 하기전에 clean */
   },
-  // watch: true,
-  // watchOptions: {
-  // ignored: /node_modules/,
-  // aggregateTimeout: 5000,
-  // poll: 1000,
-  // },
   module: {
     rules: [
       {
-        test: /\.js$/ /* js코드를 */,
+        test: /\.js$/,
         use: {
-          loader: "babel-loader" /* babel-loader로 가공 */,
+          loader: "babel-loader",
           options: {
-            presets: [
-              ["@babel/preset-env", { targets: "defaults" }],
-            ] /* 얘를 이용해서 */,
+            presets: [["@babel/preset-env", { targets: "defaults" }]],
           },
         },
       },
       {
         test: /\.scss$/,
-
-        // 작업 역순으로 선언 : webpack은 뒤에서부터 시작하기 때문
-        // 1. 일반 css로 변환
-        // 2. 그 코드를 css-loader한테 전달
-        // 3. 브라우저에 노출
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
 };
+
+
+// "babel-preset-es2015": "^6.24.1",
+// "exports-loader": "^4.0.0",
+// "imports-loader": "^4.0.1",
+// "raw-loader": "^4.0.2",
+// "val-loader": "^5.0.1",
