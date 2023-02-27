@@ -23,8 +23,10 @@ console.log("끝"); ===> 순서가 이상해짐
 export const home = async (req, res) => {
   // sort() : 어떻게 정렬할 것인지
   // desc : 내림차순 (가장 최근것이 젤 위로) , asc : 오름차순 (가장 예전것이 젤 위로)
-  const videos = await movieModel.find({}).sort({ createdAt: "desc" });
-  console.log(videos);
+  // const videos = await movieModel.find({}).sort({ createdAt: "desc" });
+  const videos = await movieModel.find({})
+    .sort({ createdAt: "desc" })
+    .populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
 };
 
@@ -97,7 +99,7 @@ export const deleteVideo = async (req, res) => {
   } = req;
   const video = await movieModel.findById(id);
   // const user = await User.findById(_id);
-  if(!video){
+  if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
   if (String(video.owner) !== String(_id)) {
@@ -124,7 +126,7 @@ export const search = async (req, res) => {
         // ${keyword}$ : keyword로 '끝나는' 제목
         $regex: new RegExp(`^${keyword}`, "i"),
       },
-    });
+    }).populate("owner");
   }
   // req.query에서 검색어를 받는다
   return res.render("search", { pageTitle: "Search", videos });

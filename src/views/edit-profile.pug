@@ -5,7 +5,7 @@ block content
         span=error_message
 
     //- 절대 경로로 : upload라는 폴더가 루트에 있으니
-    img(src=loggedInUser.avatarUrl, width=200, height=250)
+    //- img(src=loggedInUser.avatarUrl, width=200, height=250)
 
     //- entype : form이 다르게 encode된다
     form(method="POST" enctype="multipart/form-data").edit-profile__form
@@ -17,6 +17,5 @@ block content
         input(name="location", type="text", required, placeholder="주소를 입력하여 주세요" value=loggedInUser.location)
         input(type="submit", value="변경하기")
         if !loggedInUser.socialOnly
-            hr
             div.edit-profile__password
                 a(href="change-password") 비밀번호 바꾸기 →

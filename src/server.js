@@ -1,6 +1,6 @@
 import "./db.js";
 import "./models/video.js";
-import express, { application } from "express";
+import express from "express";
 import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";

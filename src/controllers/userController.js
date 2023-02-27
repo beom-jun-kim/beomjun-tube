@@ -1,5 +1,4 @@
 import userModel from "../models/user.js";
-import movieModel from "../models/video.js";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt"; /* 얘의 매소드를 쓰려면 임포트 해야함 */
 
@@ -305,7 +304,14 @@ export const logout = (req, res) => {
 
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await userModel.findById(id).populate("videos");
+  // const user = await userModel.findById(id).populate("videos");
+  const user = await userModel.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
   if (!user) {
     return res.status(404).render("404", { pageTitle: "not found" });
   }
