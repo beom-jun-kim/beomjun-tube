@@ -6,11 +6,10 @@
 //- video라는 객체를 받는다, 이름은 상관없음
 //- video에 의거하여 얻게 되는 html
 mixin video(video)
-    div 
-        h4
-            a(href=`/videos/${video.id}`)=video.title
-        p=video.description
-        ul
-            each hashtag in video.hashtags
-                li=hashtag
-        small=video.createdAt
+    a(href=`/videos/${video.id}`).video-mixin
+        div.video-mixin__thumb
+        div.video-mixin__data
+            span.video-mixin__title=video.title
+            div.video-mixin__meta
+                span #{video.owner.name} • 
+                span #{video.meta.views} 회

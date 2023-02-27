@@ -8,7 +8,7 @@ block content
     img(src=loggedInUser.avatarUrl, width=200, height=250)
 
     //- entype : form이 다르게 encode된다
-    form(method="POST" enctype="multipart/form-data")
+    form(method="POST" enctype="multipart/form-data").edit-profile__form
         label(for="avatar") Avatar
         input(type="file" id="avatar" name="avatar" accept="image/*")
         input(name="name", type="text", required , placeholder="이름을 입력하여 주세요" value=loggedInUser.name)
@@ -18,4 +18,5 @@ block content
         input(type="submit", value="변경하기")
         if !loggedInUser.socialOnly
             hr
-            a(href="change-password") 비밀번호 바꾸기 →
+            div.edit-profile__password
+                a(href="change-password") 비밀번호 바꾸기 →
