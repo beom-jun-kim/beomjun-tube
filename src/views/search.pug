@@ -4,7 +4,8 @@ include mixins/video
 block content 
     form(method="GET").search__form
         input(placeholder="검색어를 입력하세요." type="text" name="keyword")
-        input(type="submit" value="검색")
+        button
+            i.fas.fa-search
 
     div.video-grid
         each video in videos 
