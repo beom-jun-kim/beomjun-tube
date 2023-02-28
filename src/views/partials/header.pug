@@ -11,9 +11,13 @@ header
                 li
                     a(href="/videos/upload") 영상 업로드
                 li
-                    a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name}의 프로필
-                li
                     a(href="/users/logout") 로그아웃
+                li
+                    a(href=`/users/${loggedInUser._id}`) 
+                        if !loggedInUser.avatarUrl
+                            span #{loggedInUser.name}의 프로필
+                        else
+                            img.header__avatar(src=loggedInUser.avatarUrl)
             else
                 li
                     a(href="/login") 로그인

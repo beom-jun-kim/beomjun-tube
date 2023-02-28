@@ -207,8 +207,6 @@ export const finishGithubLogin = async (req, res) => {
       })
     ).json();
 
-    console.log("userData", userData);
-
     const emailData = await (
       await fetch(`${apiUrl}/user/emails`, {
         headers: {
@@ -216,8 +214,6 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
-
-    console.log("emailData", emailData);
 
     const emailObj = emailData.find(
       (email) => email.primary === true && email.verified === true
@@ -306,6 +302,7 @@ export const logout = (req, res) => {
 export const see = async (req, res) => {
   const { id } = req.params;
   // const user = await userModel.findById(id).populate("videos");
+  // double populate
   const user = await userModel.findById(id).populate({
     path: "videos",
     populate: {
