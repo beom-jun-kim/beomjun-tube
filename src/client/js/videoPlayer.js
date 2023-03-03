@@ -63,12 +63,12 @@ const formatTime = (sec) => {
   return new Date(sec * 1000).toISOString().substring(14, 19);
 };
 
-const handleLoadedMetadata = (e) => {
+const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   timeline.max = Math.floor(video.duration);
 };
 
-const handleTimeUpdate = (e) => {
+const handleTimeUpdate = () => {
 
   // formatTime : 숫자(날짜)들을 가져오는 방법
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
@@ -85,7 +85,7 @@ const handletimelineChange = (e) => {
 };
 
 // Full screen
-const handleFullscreen = (e) => {
+const handleFullscreen = () => {
   const fullscreen = document.fullscreenElement;
   if (fullscreen) {
     // exit하고 innerText를 enter로 바꿈
