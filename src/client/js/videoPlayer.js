@@ -13,6 +13,7 @@ let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
+
 // Play
 const handlePlay = (e) => {
   if (video.paused) {
@@ -22,6 +23,7 @@ const handlePlay = (e) => {
   }
   playBtn.innerText = video.paused ? "Play" : "Pause";
 };
+
 
 // Mute
 const handleMute = (e) => {
@@ -55,6 +57,7 @@ const handleVolumeChange = (e) => {
   }
 };
 
+
 // Time
 const formatTime = (sec) => {
   return new Date(sec * 1000).toISOString().substring(14, 19);
@@ -66,9 +69,12 @@ const handleLoadedMetadata = (e) => {
 };
 
 const handleTimeUpdate = (e) => {
+
+  // formatTime : 숫자(날짜)들을 가져오는 방법
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);
 };
+
 
 // Timeline
 const handletimelineChange = (e) => {
@@ -92,8 +98,8 @@ const handleFullscreen = (e) => {
   }
 };
 
-// Mouse Move
 
+// Mouse Move
 // 커서를 움직일시 visible이벤트가 실행되고 멈추면 
 // if문에 있는 controlsMovementTimeout가 실행된다
 const handleMouseMove = (e) => {
@@ -119,3 +125,9 @@ video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handletimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
 video.addEventListener("mousemove", handleMouseMove);
+
+
+// 챌린지
+// 1 . 화면 클릭 재생
+// 2. space 사용 재생
+// 3. css
