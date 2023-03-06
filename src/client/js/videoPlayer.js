@@ -5,14 +5,16 @@ const volumeRange = document.getElementById("volume");
 const currenTime = document.getElementById("currenTime");
 const totalTime = document.getElementById("totalTime");
 const timeline = document.getElementById("timeline");
-const fullScreenBtn = document.getElementById("fullScreenBtn");
+const fullScreenBtn = document.getElementById("fullScreen");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
+const playBtnIcon = playBtn.querySelector("i");
+const muteBtnIcon = muteBtn.querySelector("i");
+const fullscreenIcon = fullScreenBtn.querySelector("i");
 
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
-
 
 // Play
 const handlePlay = (e) => {
@@ -21,9 +23,8 @@ const handlePlay = (e) => {
   } else {
     video.pause();
   }
-  playBtn.innerText = video.paused ? "Play" : "Pause";
+  playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
-
 
 // Mute
 const handleMute = (e) => {
@@ -32,7 +33,7 @@ const handleMute = (e) => {
   } else {
     video.muted = true;
   }
-  muteBtn.innerText = video.muted ? "Unmute" : "Mute";
+  muteBtnIcon.classList = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
   volumeRange.value = video.muted ? 0 : video.volume;
 };
 
@@ -43,20 +44,21 @@ const handleVolumeChange = (e) => {
 
   if (video.muted) {
     video.muted = false;
-    muteBtn.innerText = "Mute";
+    muteBtnIcon.classList = "fas fa-volume-mute";
   }
+  
   volumeValue = value;
   video.volume = volumeValue;
-
-  if (Number(value) === 0) {
-    muteBtn.innerText = "Unmute";
+  
+  if (video.volume === 0) {
     video.muted = true;
+    muteBtnIcon.classList = "fas fa-volume-mute";
   } else {
     video.muted = false;
-    muteBtn.innerText = "Mute";
+    muteBtnIcon.classList = "fas fa-volume-up";
   }
-};
 
+};
 
 // Time
 const formatTime = (sec) => {
@@ -69,12 +71,10 @@ const handleLoadedMetadata = () => {
 };
 
 const handleTimeUpdate = () => {
-
   // formatTime : 숫자(날짜)들을 가져오는 방법
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);
 };
-
 
 // Timeline
 const handletimelineChange = (e) => {
@@ -91,22 +91,19 @@ const handleFullscreen = () => {
     // exit하고 innerText를 enter로 바꿈
     // document.fullscreenElement는 그냥 전체화면인지 아닌지 알려주는 요소일 뿐이다
     document.exitFullscreen();
-    fullScreenBtn.innerText = "Enter Full Screen";
+    fullScreenIcon.classList = "fas fa-expand";
   } else {
     videoContainer.requestFullscreen();
-    fullScreenBtn.innerText = "Exit Full Screen";
+    fullScreenIcon.classList = "fas fa-compress";
   }
 };
 
-
 // Mouse Move
-// 커서를 움직일시 visible이벤트가 실행되고 멈추면 
+// 커서를 움직일시 visible이벤트가 실행되고 멈추면
 // if문에 있는 controlsMovementTimeout가 실행된다
 const handleMouseMove = (e) => {
-  
   // 비디오 ele 내에서 커서를 움직일때
-  if(controlsMovementTimeout) {
-    
+  if (controlsMovementTimeout) {
     // clearTimeout : 함수가 항상 한번만 실행하도록
     clearTimeout(controlsMovementTimeout);
     controlsMovementTimeout = null;
@@ -117,15 +114,19 @@ const handleMouseMove = (e) => {
 
 const hideControls = () => videoControls.classList.remove("visible");
 
+const handleHoverControls = () => {
+  videoControls.classList.add("visible");
+}
+
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
+video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handletimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
-video.addEventListener("mousemove", handleMouseMove);
-
+videoContainer.addEventListener("mousemove", handleMouseMove);
+videoControls.addEventListener("mouseover", handleHoverControls);
 
 // 챌린지
 // 1 . 화면 클릭 재생
