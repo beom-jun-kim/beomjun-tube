@@ -33,7 +33,9 @@ const handleMute = (e) => {
   } else {
     video.muted = true;
   }
-  muteBtnIcon.classList = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
+  muteBtnIcon.classList = video.muted
+    ? "fas fa-volume-mute"
+    : "fas fa-volume-up";
   volumeRange.value = video.muted ? 0 : video.volume;
 };
 
@@ -46,10 +48,10 @@ const handleVolumeChange = (e) => {
     video.muted = false;
     muteBtnIcon.classList = "fas fa-volume-mute";
   }
-  
+
   volumeValue = value;
   video.volume = volumeValue;
-  
+
   if (video.volume === 0) {
     video.muted = true;
     muteBtnIcon.classList = "fas fa-volume-mute";
@@ -57,7 +59,6 @@ const handleVolumeChange = (e) => {
     video.muted = false;
     muteBtnIcon.classList = "fas fa-volume-up";
   }
-
 };
 
 // Time
@@ -114,19 +115,22 @@ const handleMouseMove = (e) => {
 
 const hideControls = () => videoControls.classList.remove("visible");
 
-const handleHoverControls = () => {
-  videoControls.classList.add("visible");
-}
+const handleEnded = () => {
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: "POST",
+  });
+};
 
 playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("ended", handleEnded);
 timeline.addEventListener("input", handletimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
-videoControls.addEventListener("mouseover", handleHoverControls);
 
 // 챌린지
 // 1 . 화면 클릭 재생
