@@ -24,7 +24,8 @@ export const home = async (req, res) => {
   // sort() : 어떻게 정렬할 것인지
   // desc : 내림차순 (가장 최근것이 젤 위로) , asc : 오름차순 (가장 예전것이 젤 위로)
   // const videos = await movieModel.find({}).sort({ createdAt: "desc" });
-  const videos = await movieModel.find({})
+  const videos = await movieModel
+    .find({})
     .sort({ createdAt: "desc" })
     .populate("owner");
   return res.render("home", { pageTitle: "Home", videos });
@@ -115,18 +116,20 @@ export const search = async (req, res) => {
   const { keyword } = req.query;
   let videos = [];
   if (keyword) {
-    videos = await movieModel.find({
-      // regex 연산자 : regular expression의 약자 (정규식표현에서 쓰는)
-      // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드
-      title: {
-        // https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
-        // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용
-        // i : 대.소문자 구분X  ( ignore case 무시하다라는 뜻)
-        // ^$ : keyword로 '시작하는' 제목
-        // ${keyword}$ : keyword로 '끝나는' 제목
-        $regex: new RegExp(`^${keyword}`, "i"),
-      },
-    }).populate("owner");
+    videos = await movieModel
+      .find({
+        // regex 연산자 : regular expression의 약자 (정규식표현에서 쓰는)
+        // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드
+        title: {
+          // https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
+          // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용
+          // i : 대.소문자 구분X  ( ignore case 무시하다라는 뜻)
+          // ^$ : keyword로 '시작하는' 제목
+          // ${keyword}$ : keyword로 '끝나는' 제목
+          $regex: new RegExp(`^${keyword}`, "i"),
+        },
+      })
+      .populate("owner");
   }
   // req.query에서 검색어를 받는다
   return res.render("search", { pageTitle: "Search", videos });
@@ -178,3 +181,14 @@ export const postUpload = async (req, res) => {
 // - 이러한 경우 return이 없어도 정상적으로 동작하지만 실수를 방지하기 위해 return을 사용
 // 2. render한 것은 다시 render할 수 없음
 // - redirect(), sendStatus(), end() 등등 포함 (express에서 오류 발생)
+
+export const registerView = async (req, res) => {
+  const { id } = req.params;
+  const video = await movieModel.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  video.meta.views = video.meta.views + 1;
+  await video.save();
+  return res.sendStatus(200);
+};
