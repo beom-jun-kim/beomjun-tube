@@ -6,7 +6,8 @@ module.exports = {
 
     // 프로퍼티명은 꼭 파일명이랑 같을 필요는 없다
     main: "./src/client/js/main.js",
-    videoPlayer: "./src/client/js/videoPlayer.js"
+    videoPlayer: "./src/client/js/videoPlayer.js",
+    recorder: "./src/client/js/recorder.js",
   },
   mode: "development",
   watch: true, /* 해석 된 파일의 변경 사항을 계속 감시 */
