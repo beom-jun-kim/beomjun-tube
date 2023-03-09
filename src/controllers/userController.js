@@ -291,6 +291,7 @@ export const postChangePassword = async (req, res) => {
   // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다
   await user.save();
   return res.redirect("/users/logout");
+
 };
 
 export const logout = (req, res) => {
