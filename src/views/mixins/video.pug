@@ -7,7 +7,7 @@
 //- video에 의거하여 얻게 되는 html
 mixin video(video)
     a(href=`/videos/${video.id}`).video-mixin
-        div.video-mixin__thumb
+        div.video-mixin__thumb(style=`background:url(${video.thumbnailUrl}) no-repeat center/cover;`)
         div.video-mixin__data
             span.video-mixin__title=video.title
             div.video-mixin__meta
