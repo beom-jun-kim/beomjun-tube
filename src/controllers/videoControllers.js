@@ -59,6 +59,7 @@ export const getEdit = async (req, res) => {
 
   // 같은 type으로 지정해주지 않으면 서로 type이 달라 영상 소유주에게도 이 코드가 적용되는 버그가 일어난다
   if (String(video.owner) !== String(_id)) {
+    req.flash("error","회원님께서 업로드한 영상이 아닙니다")
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
@@ -74,6 +75,7 @@ export const postEdit = async (req, res) => {
   const { title, description, hashtags } = req.body;
 
   // exists() : 존재 유무 확인 (video obj가 필요없음)
+  // mongoose 최신버전에서는 exists가 사라짐
   const video = await movieModel.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });

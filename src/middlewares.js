@@ -23,6 +23,7 @@ export const protectorMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error","로그인이 되어있지 않습니다");
     return res.redirect("/login");
   }
 };
@@ -31,6 +32,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error","로그인이 되어있습니다");
     return res.redirect("/");
   }
 };
