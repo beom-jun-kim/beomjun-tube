@@ -1,14 +1,32 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import { async } from "regenerator-runtime";
 
-const startBtn = document.getElementById("startBtn");
+const actionBtn = document.getElementById("actionBtn");
 const video = document.getElementById("preview");
 
 let stream;
 let recorder;
 let videoFile;
 
+const files = {
+  input: "rec.webm",
+  output: "output.mp4",
+  thumb: "thumbnail.jpg",
+};
+
+const downloadFile = (fileUrl, fileName) => {
+  const a = document.createElement("a");
+  a.herf = fileUrl;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+};
+
 const handleDownload = async () => {
+  actionBtn.removeEventListener("click", handleDownload);
+  actionBtn.innerText = "변환중...";
+  actionBtn.disabled = true;
+
   // https://github.com/ffmpegwasm/ffmpeg.wasm
   // log:true : 콘솔에서 현재 진행상황 확인
   const ffmpeg = createFFmpeg({ log: true });
@@ -19,27 +37,27 @@ const handleDownload = async () => {
   // writeFile : ffmpeg 가상의 어떤 곳에 파일 생성
   // rec.webm : 파일명. 맘대로 해도 됨
   // binaryData : videoFile
-  ffmpeg.FS("writeFile", "rec.webm", await fetchFile(videoFile));
+  ffmpeg.FS("writeFile", files.input, await fetchFile(videoFile));
 
   // ffmpeg.run : 가상 컴퓨터에 이미 존재하는 파일을 input(-i)으로 받는다
   // -r 60 : 초당 60프레임으로 인코딩
-  await ffmpeg.run("-i", "rec.webm", "-r", "60", "output.mp4");
+  await ffmpeg.run("-i", files.input, "-r", "60", files.output);
 
   // -ss: 특정시간대로 이동
   // -frames:v : 첫프레임의 스크린샷
   await ffmpeg.run(
     "-i",
-    "rec.webm",
+    files.input,
     "-ss",
     "00:00:01",
     "-frames:v",
     "1",
-    "thumbnail.jpg"
+    files.thumb
   );
 
   // readFile : 데이터 읽기
-  const mp4file = ffmpeg.FS("readFile", "output.mp4");
-  const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
+  const mp4file = ffmpeg.FS("readFile", files.output);
+  const thumbFile = ffmpeg.FS("readFile", files.thumb);
 
   // Uint8Array(양의 정수 8비트 배열) , buffer 배열 반환 (데이터)
   // 이 배열로부터 blob을 만들어내야한다
@@ -54,42 +72,37 @@ const handleDownload = async () => {
   const mp4Url = URL.createObjectURL(mp4Blob);
   const thumbUrl = URL.createObjectURL(thumbBlob);
 
-  const a = document.createElement("a");
-  a.herf = mp4Url;
-  a.download = "나의녹화파일.mp4";
-  document.body.appendChild(a);
-  a.click();
-
-  const thumbImg = document.createElement("a");
-  thumbImg.herf = thumbUrl;
-  thumbImg.download = "썸네일.jpg";
-  document.body.appendChild(thumbImg);
-  thumbImg.click();
+  downloadFile(mp4Url, "나의녹화파일.mp4");
+  downloadFile(thumbUrl, "썸네일.jpg");
 
   // 파일삭제
-  ffmpeg.FS("unlink","output.mp4");
-  ffmpeg.FS("unlink","thumbnail.jpg");
+  ffmpeg.FS("unlink", files.output);
+  ffmpeg.FS("unlink", files.thumb);
 
   // url 삭제
   // revokeObjectURL() : 객체 URL을 더는 쓸 일이 없을 때 사용.
-  ffmpeg.FS("unlink","rec.webm");
+  ffmpeg.FS("unlink", files.input);
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(mp4Url);
   URL.revokeObjectURL(videoFile);
+
+  actionBtn.disabled = false;
+  actionBtn.innerText = "녹화하기";
+  actionBtn.addEventListener("click", handleStart);
 };
 
 const handleStop = () => {
-  startBtn.innerText = "녹화하기";
-  startBtn.removeEventListener("click", handleStop);
-  startBtn.addEventListener("click", handleDownload);
+  actionBtn.innerText = "녹화하기";
+  actionBtn.removeEventListener("click", handleStop);
+  actionBtn.addEventListener("click", handleDownload);
   recorder.stop();
 };
 
 const handleStart = () => {
-  startBtn.innerText = "녹화중지";
-  startBtn.removeEventListener("click", handleStart);
+  actionBtn.innerText = "녹화중지";
+  actionBtn.removeEventListener("click", handleStart);
 
-  startBtn.addEventListener("click", handleStop);
+  actionBtn.addEventListener("click", handleStop);
 
   // MediaRecorder : 미디어를 쉽게 녹화할 수 있는 기능 제공
   // https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
@@ -116,7 +129,7 @@ const init = async () => {
   // npm i regenerator-runtime 설치
   let stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
-    video: { width: 500, height: 500 },
+    video: { width: 1024, height: 576 },
   });
   video.srcObject = stream;
   video.play();
