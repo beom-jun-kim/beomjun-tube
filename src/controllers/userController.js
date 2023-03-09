@@ -251,6 +251,7 @@ export const finishGithubLogin = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash("error","SNS계정 : 비밀번호를 바꿀 수 없습니다")
     return res.redirect("/");
   }
   return res.render("change-password", { pageTitle: "Change Password" });
@@ -290,6 +291,7 @@ export const postChangePassword = async (req, res) => {
   // 스키마에 있는 middleware 함수 실행, hash시키기
   // findByIdAndUpdate로는 pre('save')를 실행시키지 않는다
   await user.save();
+  req.flash("info","비밀번호가 업데이트 되었습니다");
   return res.redirect("/users/logout");
 };
 

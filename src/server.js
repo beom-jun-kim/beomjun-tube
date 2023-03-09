@@ -4,8 +4,7 @@ import express from "express";
 import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-
-// default 로 선언했기 때문에 이름을 어떤 것으로 하든 상관X
+import flash from "express-flash";
 import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
@@ -63,6 +62,7 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(localsMiddlewares);
 
 //  Express에 내장된 미들웨어 기능 : express.static()
