@@ -31,6 +31,10 @@ app.use(logger);
 // 데이터 파싱기능
 app.use(express.urlencoded({ extended: true }));
 
+// 댓글기능 구현시 필요한 미들웨어
+// string을 받아서 json으로 바꾸는 미들웨어
+app.use(express.json());
+
 // session 저장소
 // route 사용하기 전에 사용(middleware이니까)
 // 이 미들웨어가 사이트로 들어오는 모두를 기억
@@ -54,7 +58,7 @@ app.use(
     cookie: {
 
       // 세션이 언제 만료되는지 1/1000초 단위로 작성 = 1000 = 1초
-      maxAge:1000000,
+      maxAge:3000000,
     },
 
     // database 연결

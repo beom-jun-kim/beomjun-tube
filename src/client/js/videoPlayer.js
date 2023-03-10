@@ -117,6 +117,8 @@ const hideControls = () => videoControls.classList.remove("visible");
 
 const handleEnded = () => {
   const { id } = videoContainer.dataset;
+
+  // post request는 data를 필요로 한다
   fetch(`/api/videos/${id}/view`, {
     method: "POST",
   });

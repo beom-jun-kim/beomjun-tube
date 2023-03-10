@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   location: String,
   email: { type: String, required: true, unique: true },
+  comments: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
+  ],
 
   // 한명의 유저가 여러개의 비디오를 가지고 있으니 array로 (video model의 obj id로 채운다)
   // video model에 연결된 obj id로 구성된 array
