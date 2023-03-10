@@ -1,6 +1,7 @@
 extends base
 
 block content
+    h2.video_title #{video.title}
     div#videoContainer(data-id=video._id)
 
         //- video로 변수가 선언이 되어있다 : videoControllers.js 에서 const video = await movieModel.findById(id);
@@ -23,20 +24,32 @@ block content
                     i.fas.fa-expand
 
     div
-        p=video.descriptionfileUrl
-        small=video.createdAt
+        p.descriptionfileUrl=video.descriptionfileUrl
+        small.createdAt=video.createdAt
     div 
-        h4.video_title #{video.title}
-        small 
-            a(href=`/users/${video.owner._id}`) #{video.owner.name}님이 업로드 하셨습니다
+        p.description=video.description
+        p.hashtags=video.hashtags
+        small.owner__upload
+            a(href=`/users/${video.owner._id}`) 
+                span #{video.owner.name}
+                span 님이 업로드 하셨습니다
+    hr
     if String(video.owner._id) === String(loggedInUser._id)
+        a(href=`${video.id}/edit`) 
+            i.fa-solid.fa-pen-to-square  편집하기
         br
-        a(href=`${video.id}/edit`) Edit Video →
         br
-        a(href=`${video.id}/delete`) Delete Video →
+        a(href=`${video.id}/delete`)
+            i.fa-solid.fa-trash  삭제하기
 
+    if loggedIn
+        div.video__comments
+            form.video__comment-form#commentForm
+                textarea(cols="30", rows="10", placeholder="댓글을 달아주세요")
+                button 작성완료
 block scripts
     script(src="/static/js/videoPlayer.js")
+    script(src="/static/js/commentSection.js")
 
     //- relative , absoulte url : 앞에 /를 지우면 root  url이 나타난다 , /를 추가하면 어디에 있든 그곳으로 이동
     //- 위 경우 이미 videos 경로에 있기 때문에 앞의 /를 지우고 뒤에것부터 적어도 된다

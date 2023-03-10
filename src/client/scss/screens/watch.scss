@@ -1,3 +1,22 @@
 .video_title {
-    margin: 10px 0 20px;
+    margin: 0 0 30px;
+    font-size: $bigFont;
+    text-align: center;
+}
+.description {
+    margin: 20px 0;
+    font-size: $normalFont;
+}
+.hashtags,
+.owner__upload,
+.createdAt {
+    margin-bottom: 20px;
+    font-size: $smallFont;
+    font-weight: 300;
+    span:first-child {
+        color: $whiteText;
+    }
+}
+.descriptionfileUrl {
+    margin-top: 20px;
 }

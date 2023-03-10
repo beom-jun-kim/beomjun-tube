@@ -1,9 +1,14 @@
 .empty__message {
   margin-bottom: 50px;
-  font-size: 18px;
+  font-size: $normalFont;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   white-space: nowrap;
 }
 .video-grid {
+  position: relative;
   display: grid;
   gap: 50px;
   grid-template-columns: repeat(4, minmax(0, 1fr));

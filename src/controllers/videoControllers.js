@@ -1,5 +1,6 @@
 import movieModel from "../models/video.js";
 import userModel from "../models/user.js";
+import { async } from "regenerator-runtime";
 
 /* 
 
@@ -200,3 +201,9 @@ export const registerView = async (req, res) => {
   await video.save();
   return res.sendStatus(200);
 };
+
+export const createComment = async (req, res) => {
+  console.log("ddddddddd",req.params);
+  console.log("dfdfdfdfdfd",req.body.text);
+  return res.end();
+}
