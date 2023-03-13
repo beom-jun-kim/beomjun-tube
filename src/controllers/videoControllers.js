@@ -1,6 +1,6 @@
 import movieModel from "../models/video.js";
 import userModel from "../models/user.js";
-import { async } from "regenerator-runtime";
+import commentModel from "../models/comment.js";
 
 /* 
 
@@ -60,7 +60,7 @@ export const getEdit = async (req, res) => {
 
   // 같은 type으로 지정해주지 않으면 서로 type이 달라 영상 소유주에게도 이 코드가 적용되는 버그가 일어난다
   if (String(video.owner) !== String(_id)) {
-    req.flash("error","회원님께서 업로드한 영상이 아닙니다")
+    req.flash("error", "회원님께서 업로드한 영상이 아닙니다");
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit ${video.title}`, video });
@@ -162,11 +162,11 @@ export const postUpload = async (req, res) => {
       // 업로드 될 영상의 id를 user model에도 저장해 줘야한다
       title,
       description,
-      fileUrl : video[0].path,
+      fileUrl: video[0].path,
 
       // Windows의 path는 백슬래시를 사용..? 하기에 replace /로 변경
       // replace(/[찾을 문자열]/g, "변경할 문자열")
-      // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시 
+      // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시
       // []안에 특수기호를 넣으면 개별적으로 변환
       thumbnailUrl: thumb[0].path.replace(/[\\]/g, "/"),
       owner: _id,
@@ -203,7 +203,22 @@ export const registerView = async (req, res) => {
 };
 
 export const createComment = async (req, res) => {
-  console.log("ddddddddd",req.params);
-  console.log("dfdfdfdfdfd",req.body.text);
-  return res.end();
-}
+  const {
+    body: { text },
+    session: { user },
+    params: { id },
+  } = req;
+
+  const video = await movieModel.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  const comment = await commentModel.create({
+    text,
+    owner: user._id,
+    video: id,
+  });
+
+  // 201 : created(생성됨) - 요청이 완료되었고 결과로 새로운 리소스를 생성
+  return res.sendStatus(201);
+};

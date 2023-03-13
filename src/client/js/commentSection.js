@@ -14,7 +14,7 @@ const handleSubmit = (e) => {
 
   // fetch는 js를 통해서 request를 보낼 수 있게 해준다
   // 보낸 데이터가 JSON인지 쿼리 문자열인지 API에 알려주는 Content-type을 지정
-  fetch(`api/videos/${videoId}/comment`, {
+  fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
 
     // express.json()은 header에 Content-Type이 
@@ -28,6 +28,7 @@ const handleSubmit = (e) => {
     // 이 문자열 형태로 된 데이터를 json한다
     body: JSON.stringify({ text }),
   });
+  textarea.value="";
 };
 
 if (form) {
