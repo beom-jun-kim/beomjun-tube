@@ -1,5 +1,4 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import { async } from "regenerator-runtime";
 
 const actionBtn = document.getElementById("actionBtn");
 const video = document.getElementById("preview");
