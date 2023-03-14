@@ -47,6 +47,15 @@ block content
             form.video__comment-form#commentForm
                 textarea(cols="30", rows="10", placeholder="댓글을 달아주세요")
                 button 작성완료
+
+    div.video__comment-box
+        ul
+            each comment in video.comments.reverse()
+                li.comment(data-id=comment._id)
+                    i.fas.fa-comment
+                    span #{comment.text}
+                    if String(video.owner._id) === String(loggedInUser._id)
+                        span#deleteBtn X
 block scripts
     script(src="/static/js/videoPlayer.js")
     script(src="/static/js/commentSection.js")

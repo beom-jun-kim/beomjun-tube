@@ -38,7 +38,9 @@ export const watch = async (req, res) => {
   // populate() : 다른 컬렉션의 문서로 자동 교체하는 프로세스.
   // owner부분을 실제 userModel 데이터를 +하여 채워준다
   // mongoose는 object id 가 userModel로 부터 온 것임을 안다
-  const video = await movieModel.findById(id).populate("owner");
+  const video = await (
+    await movieModel.findById(id).populate("owner")
+  ).populate("comments");
 
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found" });
@@ -210,6 +212,7 @@ export const createComment = async (req, res) => {
   } = req;
 
   const video = await movieModel.findById(id);
+
   if (!video) {
     return res.sendStatus(404);
   }
@@ -218,7 +221,32 @@ export const createComment = async (req, res) => {
     owner: user._id,
     video: id,
   });
+  video.comments.push(comment._id);
+  video.save();
 
   // 201 : created(생성됨) - 요청이 완료되었고 결과로 새로운 리소스를 생성
+  // json으로 정보를 보낸다 : res.json([body]) JSON response를 보냅니다.
+  // 이 메서드는 JSON.stringify()를 사용하여 JSON 문자열로 변환된 매개변수인 response를 보낸다
+  // frontend에게 새로 생긴 댓글의 id를 보내기 위해
+  return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    params: { id },
+  } = req;
+
+  const comment = await commentModel.findById(id);
+
+  if (String(comment.owner) !== String(_id)) {
+    req.flash("error", "You are not the owner of video.");
+    return res.status(403).redirect("/");
+  }
+  await commentModel.findByIdAndDelete(id);
+  const commentsOwner = await userModel.findById(_id);
+  commentsOwner.save();
   return res.sendStatus(201);
 };
