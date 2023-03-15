@@ -1,15 +1,19 @@
 {
   "name": "webtube",
   "version": "1.0.0",
-  "type": "module",
+  
   "description": "youtube clone coding.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/beom-jun-kim/beomjun-tube.git"
   },
   "scripts": {
+    "start":"node build/init.js",
+    "build" : "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build --ignore src/client",
+    "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
-    "dev:assets": "webpack --config webpack.config.js"
+    "dev:assets": "webpack --mode=development -w"
   },
   "author": "beom-jun-kim",
   "license": "MIT",
@@ -38,7 +42,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.0",
+    "@babel/core": "^7.21.3",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.2",

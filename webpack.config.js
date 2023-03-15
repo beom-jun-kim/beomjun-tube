@@ -12,8 +12,6 @@ module.exports = {
     recorder: BASE_JS + "recorder.js",
     commentSection: BASE_JS + "commentSection.js",
   },
-  mode: "development",
-  watch: true /* 해석 된 파일의 변경 사항을 계속 감시 */,
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
