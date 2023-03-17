@@ -19,7 +19,7 @@ module.exports = {
   ],
   output: {
     filename:
-      "js/[name].js" /* [name] entry에 있는 이름을 가져간다(변수설정) */,
+      "js/[name].js" /* [name] entry에 있는 이름을 가져감(변수설정) */,
     path: path.resolve(__dirname, "assets"),
     clean: true /* build 하기전에 clean */,
   },
