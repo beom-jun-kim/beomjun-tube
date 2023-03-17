@@ -6,7 +6,7 @@ const BASE_JS = "./src/client/js/";
 module.exports = {
   entry: {
 
-    // 프로퍼티명은 꼭 파일명이랑 같을 필요는 없다
+    // 프로퍼티명은 꼭 파일명이랑 같을 필요x
     main: BASE_JS + "main.js",
     videoPlayer: BASE_JS + "videoPlayer.js",
     recorder: BASE_JS + "recorder.js",
