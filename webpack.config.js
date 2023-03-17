@@ -7,10 +7,10 @@ module.exports = {
   entry: {
 
     // 프로퍼티명은 꼭 파일명이랑 같을 필요X
-    main: BASE_JS + "main.mjs",
-    videoPlayer: BASE_JS + "videoPlayer.mjs",
-    recorder: BASE_JS + "recorder.mjs",
-    commentSection: BASE_JS + "commentSection.mjs",
+    main: BASE_JS + "main.js",
+    videoPlayer: BASE_JS + "videoPlayer.js",
+    recorder: BASE_JS + "recorder.js",
+    commentSection: BASE_JS + "commentSection.js",
   },
   plugins: [
     new MiniCssExtractPlugin({
