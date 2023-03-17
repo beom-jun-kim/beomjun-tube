@@ -60,7 +60,7 @@ export const getEdit = async (req, res) => {
     return res.status(404).render("404", { pageTitle: "Video not found" });
   }
 
-  // 같은 type으로 지정해주지 않으면 서로 type이 달라 영상 소유주에게도 이 코드가 적용되는 버그가 일어난다
+  // 같은 type으로 지정해주지 않으면 서로 type이 달라 영상 소유주에게도 이 코드가 적용되는 버그가 일어남
   if (String(video.owner) !== String(_id)) {
     req.flash("error", "회원님께서 업로드한 영상이 아닙니다");
     return res.status(403).redirect("/");
