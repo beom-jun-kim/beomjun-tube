@@ -124,7 +124,7 @@ export const search = async (req, res) => {
     videos = await movieModel
       .find({
         // regex 연산자 : regular expression의 약자 (정규식표현에서 쓰는)
-        // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드
+        // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드이다
         title: {
           // https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
           // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용dfdfd
