@@ -1,5 +1,5 @@
 {
   "verbose": true,
-  "ignore": ["webpack.config.mjs", "src/client/*", "assets/*"],
+  "ignore": ["webpack.config.js", "src/client/*", "assets/*"],
   "exec": "babel-node src/init.js"
 }
