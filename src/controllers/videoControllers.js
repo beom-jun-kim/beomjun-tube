@@ -127,7 +127,7 @@ export const search = async (req, res) => {
         // 몽고DB에서 정규표현식을 사용하기 위해 사용하는 키워드
         title: {
           // https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
-          // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용
+          // RegExp 생성자는 패턴을 사용해 텍스트를 판별할 때 사용dfdfd
           // i : 대.소문자 구분X  ( ignore case 무시하다라는 뜻)
           // ^$ : keyword로 '시작하는' 제목
           // ${keyword}$ : keyword로 '끝나는' 제목
