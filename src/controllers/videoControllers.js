@@ -1,4 +1,4 @@
-import movieModel from "../models/video.mjs";
+import movieModel from "../models/video.js";
 import userModel from "../models/user.mjs";
 import commentModel from "../models/comment.mjs";
 
