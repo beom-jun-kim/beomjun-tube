@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
-dotenv.config();
-import db from "./db.mjs";
-import Video from "./models/video.mjs";
-import User from "./models/user.mjs";
-import Comment from "./models/comment.mjs";
-import app from "./server.mjs";
+import "dotenv/config";
+import "./db.js";
+import "./models/video.js";
+import "./models/user.js";
+import "./models/comment.js";
+import app from "./server.js";
+
 const PORT = 4000;
 
 const handleListening = () => {
