@@ -1,4 +1,4 @@
-import esbuild from "esbuild"
+import esbuild from "esbuild";
 import Dotenv from 'dotenv-esbuild';
 import "dotenv/config";
 import "./db.js";
