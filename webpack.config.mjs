@@ -33,6 +33,7 @@ const config = {
           requireInclude: false, // require.include 비활성화
           requireEnsure: false, // require.ensure 비활성화
           requireContext: false, // require.context 비활성화
+          browserify: false, // Browserify 번들의 특수 처리 비활성화
         }
       },
       {
