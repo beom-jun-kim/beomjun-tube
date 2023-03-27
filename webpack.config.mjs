@@ -28,18 +28,6 @@ const config = {
   module: {
     rules: [
       {
-        parser:{
-          commonjs:false,
-          requireInclude: false, // require.include 비활성화
-          requireEnsure: false, // require.ensure 비활성화
-          requireContext: false, // require.context 비활성화
-          browserify: false, // Browserify 번들의 특수 처리 비활성화
-          requireJs: false, // requirejs.* 비활성화
-          commonjsMagicComments: false, // CommonJS를 위한 magic comments 지원 비활성화
-          node: {}, // 모듈 수준에서 [node](/configuration/node) 계층 재구성
-        }
-      },
-      {
         test: /\.m?js$/,
         use: {
           loader: "babel-loader",
