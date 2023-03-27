@@ -1,6 +1,8 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 
+const __dirname = path.resolve();
+
 const BASE_JS = "./src/client/js/";
 
 const config = {
