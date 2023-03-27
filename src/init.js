@@ -1,4 +1,4 @@
-import {} from "./db.js";
+import {} from "./db.mjs";
 import {} from "./models/video.mjs";
 import {} from "./models/user.mjs";
 import {} from "./models/comment.mjs"
