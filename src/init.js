@@ -1,4 +1,5 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 require("./db.js");
 require("./models/video.js")
 require("./models/user.js")
