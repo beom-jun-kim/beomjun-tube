@@ -1,6 +1,5 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import { Parser } from "webpack";
 
 const __dirname = path.resolve();
 
@@ -29,7 +28,7 @@ const config = {
   module: {
     rules: [
       {
-        Parser:{
+        parser:{
           commonjs:false,
         }
       },
