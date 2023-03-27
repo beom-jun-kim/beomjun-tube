@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-const _dotenv = dotenv.default;
+require('dotenv').config({path:path.join(__dirname,"/env")});
 require("./db.js");
 require("./models/video.js")
 require("./models/user.js")
