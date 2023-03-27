@@ -1,3 +1,6 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 import "dotenv/config";
 import "./db.js";
 import "./models/video.js";
