@@ -1,6 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
-import "./db.js";
+import {} from "./db.js";
 import "./models/video.js";
 import "./models/user.js";
 import "./models/comment.js"
