@@ -1,5 +1,5 @@
 require('dotenv').config();
-import {} from "./db.js";
+import "./db";
 import "./models/video.js";
 import "./models/user.js";
 import "./models/comment.js"
