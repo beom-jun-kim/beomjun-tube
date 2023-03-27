@@ -1,4 +1,4 @@
-import {} from "./db.mjs";
+import {} from "./db.js";
 import {} from "./models/video.mjs";
 import express from "express";
 import morgan from "morgan";
