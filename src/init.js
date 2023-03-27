@@ -1,9 +1,9 @@
 require('dotenv').config();
-import "./db.js";
+import "./db.cjs";
 import "./models/video.js";
 import "./models/user.js";
 import "./models/comment.js"
-import app from "./server.js";
+import app from "./server.cjs";
 
 const PORT = 4000;
 
