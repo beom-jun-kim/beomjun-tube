@@ -9,7 +9,7 @@ import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import apiRouter from "./routers/apiRouter.js";
-import { localsMiddlewares } from "./middlewares.js";
+import { localsMiddlewares } from "./middlewares.mjs";
 
 const app = express();
 
