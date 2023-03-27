@@ -29,7 +29,7 @@ const config = {
   module: {
     rules: [
       {
-        parser:{
+        Parser:{
           commonjs:false,
         }
       },
