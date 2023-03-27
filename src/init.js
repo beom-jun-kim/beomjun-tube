@@ -1,6 +1,6 @@
+import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 require("dotenv").config();
-import { createRequire } from "module";
 
 import "dotenv/config";
 import "./db.js";

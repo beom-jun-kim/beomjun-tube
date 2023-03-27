@@ -2,10 +2,7 @@ import mongoose from "mongoose";
 
 // database에 연결
 mongoose.set("strictQuery", true);
-mongoose.connect(process.env.DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.DB_URL);
 
 // mongoose가 connection에 대한 액세스를 줌
 const db = mongoose.connection;
