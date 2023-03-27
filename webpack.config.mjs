@@ -30,6 +30,9 @@ const config = {
       {
         parser:{
           commonjs:false,
+          requireInclude: false, // require.include 비활성화
+          requireEnsure: false, // require.ensure 비활성화
+          requireContext: false, // require.context 비활성화
         }
       },
       {
