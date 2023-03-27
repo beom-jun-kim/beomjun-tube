@@ -2,4 +2,4 @@ const babel = {
     "presets": ["@babel/preset-env"]
 } 
 
-// export default babel;
+export default babel;
