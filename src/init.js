@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import "./db.js";
-import "./models/video.js";
-import "./models/user.js";
-import "./models/comment.js"
-import app from "./server.js";
+import "./db";
+import "./models/video";
+import "./models/user";
+import "./models/comment"
+import app from "./server";
 
 const PORT = 4000;
 
