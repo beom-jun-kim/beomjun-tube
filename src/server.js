@@ -1,5 +1,5 @@
-import {} from "./db.mjs";
-import {} from "./models/video.mjs";
+import "./db.js";
+import "./models/video.js";
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
