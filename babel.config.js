@@ -1,3 +1,5 @@
-module.exports = {
-    "presets": ["@babel/preset-env", { "modules": "commonjs" }]
-}
+const babel = {
+    "presets": ["@babel/preset-env"]
+} 
+
+export default babel;
