@@ -1,4 +1,4 @@
-require('dotenv').config({path:path.join(__dirname,"/env")});
+import "dotenv/config";
 require("./db.js");
 require("./models/video.js")
 require("./models/user.js")
