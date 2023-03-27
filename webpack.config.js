@@ -1,9 +1,11 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+
+const __dirname = path.resolve();
 
 const BASE_JS = "./src/client/js/";
 
-module.exports = {
+const config = {
   entry: {
 
     // 프로퍼티명은 꼭 파일명이랑 같을 필요없다
@@ -26,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         use: {
           loader: "babel-loader",
           options: {
@@ -41,3 +43,5 @@ module.exports = {
     ],
   },
 };
+
+export default config;
