@@ -1,4 +1,4 @@
-import dotenv from "dotenv.cjs";
+import dotenv from "dotenv";
 dotenv.config();
 import "./db.cjs";
 import "./models/video.cjs";
