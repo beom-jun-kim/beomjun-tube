@@ -1,4 +1,4 @@
-import { createRequire } from "module";
+var _module = require("module");
 const require = createRequire(import.meta.url);
 require("dotenv").config();
 import "./db.cjs";
