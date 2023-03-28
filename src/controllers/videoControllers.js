@@ -1,6 +1,6 @@
-import movieModel from "../models/video.cjs";
-import userModel from "../models/user.cjs";
-import commentModel from "../models/comment.cjs";
+import movieModel from "../models/video.mjs";
+import userModel from "../models/user.mjs";
+import commentModel from "../models/comment.mjs";
 
 /* 
 

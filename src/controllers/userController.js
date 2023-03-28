@@ -1,4 +1,4 @@
-import userModel from "../models/user.cjs";
+import userModel from "../models/user.mjs";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt"; /* 얘의 매소드를 쓰려면 임포트 해야함 */
 
