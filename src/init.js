@@ -1,6 +1,4 @@
-// import "dotenv/config";
-import dotenv from 'dotenv';
-dotenv.config();
+import "dotenv/config";
 import "./db.js";
 import "./models/video.js";
 import "./models/user.js";
