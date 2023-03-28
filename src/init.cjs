@@ -1,4 +1,4 @@
-const _module = require("module");
+const _module = require("module.d.cts");
 const require = createRequire(import.meta.url);
 require("dotenv").config();
 const db = require("./db.cjs");
