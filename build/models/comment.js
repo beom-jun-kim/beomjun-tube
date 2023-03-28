@@ -1,33 +1,31 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true,
+  value: true
 });
 exports["default"] = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var commentSchema = new _mongoose["default"].Schema({
   text: {
     type: String,
-    required: true,
+    required: true
   },
   owner: {
     type: _mongoose["default"].Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: "User"
   },
   video: {
     type: _mongoose["default"].Schema.Types.ObjectId,
     required: true,
-    ref: "Video",
+    ref: "Video"
   },
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now,
-  },
+    "default": Date.now
+  }
 });
 var commentModel = _mongoose["default"].model("Comment", commentSchema);
 var _default = commentModel;
