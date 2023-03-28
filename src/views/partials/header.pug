@@ -17,6 +17,7 @@ header
                         if !loggedInUser.avatarUrl
                             span #{loggedInUser.name}의 프로필
                         else
+                            //- if loggedInUser.avatarUrl.includes("github")
                             img.header__avatar(src=loggedInUser.avatarUrl)
             else
                 li
