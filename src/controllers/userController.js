@@ -293,6 +293,7 @@ export const postChangePassword = async (req, res) => {
   await user.save();
   req.flash("info","비밀번호가 업데이트 되었습니다");
   return res.redirect("/users/logout");
+
 };
 
 export const logout = (req, res) => {
