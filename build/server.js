@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 require("./db.mjs");
-require("./models/video.mjs");
+require("./models/video.js");
 var _express = _interopRequireDefault(require("express"));
 var _morgan = _interopRequireDefault(require("morgan"));
 var _expressSession = _interopRequireDefault(require("express-session"));

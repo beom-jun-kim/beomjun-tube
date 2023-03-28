@@ -1,8 +1,8 @@
 import "dotenv/config";
 import "./db.mjs";
-import "./models/video.mjs";
-import "./models/user.mjs";
-import "./models/comment.mjs";
+import "./models/video.js";
+import "./models/user.js";
+import "./models/comment.js";
 import app from "./server.mjs";
 
 // 내컴퓨터에서는 4000 , heroku에서 실행될때는 port변수
