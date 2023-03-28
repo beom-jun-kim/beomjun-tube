@@ -5,10 +5,10 @@ import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import flash from "express-flash";
-import rootRouter from "./routers/rootRouter.js";
-import userRouter from "./routers/userRouter.js";
-import videoRouter from "./routers/videoRouter.js";
-import apiRouter from "./routers/apiRouter.js";
+import rootRouter from "./routers/rootRouter.mjs";
+import userRouter from "./routers/userRouter.mjs";
+import videoRouter from "./routers/videoRouter.mjs";
+import apiRouter from "./routers/apiRouter.mjs";
 import { localsMiddlewares } from "./middlewares.mjs";
 
 const app = express();
