@@ -1,11 +1,16 @@
 var _module = require("module");
 const require = createRequire(import.meta.url);
 require("dotenv").config();
-import "./db.cjs";
-import "./models/video.cjs";
-import "./models/user.cjs";
-import "./models/comment.cjs";
-import app from "./server.cjs";
+require("./db.cjs");
+require("./models/video.cjs");
+require("./models/user.cjs");
+require("./models/comment.cjs");
+require("./server.cjs");
+// import "./db.cjs";
+// import "./models/video.cjs";
+// import "./models/user.cjs";
+// import "./models/comment.cjs";
+// import app from "./server.cjs";
 
 const PORT = 4000;
 
