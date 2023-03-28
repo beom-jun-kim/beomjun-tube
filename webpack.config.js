@@ -1,11 +1,9 @@
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import path from "path";
-
-const __dirname = path.resolve();
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
 
 const BASE_JS = "./src/client/js/";
 
-const config = {
+module.exports = {
   entry: {
 
    // 프로퍼티명은 꼭 파일명이랑 같을 필요X
@@ -43,5 +41,3 @@ const config = {
     ],
   },
 };
-
-export default config;
