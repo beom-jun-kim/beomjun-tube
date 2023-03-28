@@ -1,17 +1,24 @@
-import "./db.js";
-import "./models/video.js";
-import express from "express";
-import morgan from "morgan";
-import session from "express-session";
-import MongoStore from "connect-mongo";
-import flash from "express-flash";
-import rootRouter from "./routers/rootRouter.js";
-import userRouter from "./routers/userRouter.js";
-import videoRouter from "./routers/videoRouter.js";
-import apiRouter from "./routers/apiRouter.js";
-import { localsMiddlewares } from "./middlewares.js";
-const app = express();
-const logger = morgan("dev");
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+require("./db.cjs");
+require("./models/video.js");
+var _express = _interopRequireDefault(require("express"));
+var _morgan = _interopRequireDefault(require("morgan"));
+var _expressSession = _interopRequireDefault(require("express-session"));
+var _connectMongo = _interopRequireDefault(require("connect-mongo"));
+var _expressFlash = _interopRequireDefault(require("express-flash"));
+var _rootRouter = _interopRequireDefault(require("./routers/rootRouter.js"));
+var _userRouter = _interopRequireDefault(require("./routers/userRouter.js"));
+var _videoRouter = _interopRequireDefault(require("./routers/videoRouter.js"));
+var _apiRouter = _interopRequireDefault(require("./routers/apiRouter.js"));
+var _middlewares = require("./middlewares.mjs");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var app = (0, _express["default"])();
+var logger = (0, _morgan["default"])("dev");
 app.set("view engine", "pug"); /* express는 views 디렉토리에서 pug를 찾는다 */
 app.set("views", process.cwd() + "/src/views"); /* 디폴트 값에서 변경 /src 추가 */
 
@@ -23,20 +30,20 @@ app.use(logger);
 // html form을 이해하고 form의 value들을 우리가 이해할 수 있는 js obj형식으로 변형
 // express에 내장된 미들웨어 기능.
 // 데이터 파싱기능
-app.use(express.urlencoded({
+app.use(_express["default"].urlencoded({
   extended: true
 }));
 
 // 댓글기능 구현시 필요한 미들웨어
 // string을 받아서 json으로 바꾸는 미들웨어
-app.use(express.json());
+app.use(_express["default"].json());
 
 // session 저장소
 // route 사용하기 전에 사용(middleware이니까)
 // 이 미들웨어가 사이트로 들어오는 모두를 기억
 // 브라우저가 서버에 요청 > 서버는 session 미들웨어가 브라우저한테 텍스트를 보낸다
 // 방문시 express가 세션 id 생성 > 브라우저가 받음 > 쿠키에 세션 id 저장 > express에서도 해당 세션 DB에 저장(서버가 재부팅되면 초기화되기에)
-app.use(session({
+app.use((0, _expressSession["default"])({
   // 옵션설정
   secret: process.env.COOKIE_SECRET,
   // 모든 request마다 세션의 변경사항 있든 없든 세션을 다시 저장
@@ -51,19 +58,20 @@ app.use(session({
     maxAge: 3000000
   },
   // database 연결
-  store: MongoStore.create({
+  store: _connectMongo["default"].create({
     mongoUrl: process.env.DB_URL
   })
 }));
-app.use(flash());
-app.use(localsMiddlewares);
+app.use((0, _expressFlash["default"])());
+app.use(_middlewares.localsMiddlewares);
 
 //  Express에 내장된 미들웨어 기능 : express.static()
 // staic()에는 노출시키고 싶은 폴더의 이름
-app.use("/uploads", express.static("uploads"));
-app.use("/static", express.static("assets"));
-app.use("/", rootRouter);
-app.use("/videos", videoRouter);
-app.use("/users", userRouter);
-app.use("/api", apiRouter);
-export default app;
+app.use("/uploads", _express["default"]["static"]("uploads"));
+app.use("/static", _express["default"]["static"]("assets"));
+app.use("/", _rootRouter["default"]);
+app.use("/videos", _videoRouter["default"]);
+app.use("/users", _userRouter["default"]);
+app.use("/api", _apiRouter["default"]);
+var _default = app;
+exports["default"] = _default;

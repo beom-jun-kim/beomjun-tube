@@ -1,5 +1,12 @@
-import multer from "multer";
-export const localsMiddlewares = (req, res, next) => {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.videoUpload = exports.publicOnlyMiddleware = exports.protectorMiddleware = exports.localsMiddlewares = exports.avatarUpload = void 0;
+var _multer = _interopRequireDefault(require("multer"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var localsMiddlewares = function localsMiddlewares(req, res, next) {
   // 왜 res.locals에 담아서 하는가?
   // res에 locals이라는 obj가 있는데 템플릿에서 locals에 접근 가능 (템플릿과 data 공유)
 
@@ -17,7 +24,8 @@ export const localsMiddlewares = (req, res, next) => {
   res.locals.loggedInUser = req.session.user || {};
   next();
 };
-export const protectorMiddleware = (req, res, next) => {
+exports.localsMiddlewares = localsMiddlewares;
+var protectorMiddleware = function protectorMiddleware(req, res, next) {
   if (req.session.loggedIn) {
     return next();
   } else {
@@ -25,7 +33,8 @@ export const protectorMiddleware = (req, res, next) => {
     return res.redirect("/login");
   }
 };
-export const publicOnlyMiddleware = (req, res, next) => {
+exports.protectorMiddleware = protectorMiddleware;
+var publicOnlyMiddleware = function publicOnlyMiddleware(req, res, next) {
   if (!req.session.loggedIn) {
     return next();
   } else {
@@ -38,15 +47,18 @@ export const publicOnlyMiddleware = (req, res, next) => {
 // gitignore에 경로 추가
 // db에 파일을 저장하면 안됨. 파일의 위치를 저장 : db는 파일 저장을 위한게 아니다
 // limits : fileSize (multer 옵션) , 파일 최대 크기 지정
-export const avatarUpload = multer({
+exports.publicOnlyMiddleware = publicOnlyMiddleware;
+var avatarUpload = (0, _multer["default"])({
   dest: "uploads/avatars/",
   limits: {
     fileSize: 5000000
   }
 });
-export const videoUpload = multer({
+exports.avatarUpload = avatarUpload;
+var videoUpload = (0, _multer["default"])({
   dest: "uploads/videos/",
   limits: {
     fileSize: 7000000
   }
 });
+exports.videoUpload = videoUpload;

@@ -1,16 +1,22 @@
-import mongoose from "mongoose";
+"use strict";
 
+var _mongoose = _interopRequireDefault(require("mongoose"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 // database에 연결
-mongoose.set("strictQuery", true);
-mongoose.connect(process.env.DB_URL /* {useFindAndModify:false} */);
+_mongoose["default"].set("strictQuery", true);
+_mongoose["default"].connect(process.env.DB_URL);
 
-// mongoose가 connection에 대한 액세스를 준다
-const db = mongoose.connection;
+// mongoose가 connection에 대한 액세스를 줌
+var db = _mongoose["default"].connection;
 
 // on : 여러번 계속 발생시킬 수 있다 . 클릭 이벤트
 // once : 한번만 발생
-const handleOpen = () => console.log("connected to DB ✔");
-const handleError = () => console.log("DB Error", error);
+var handleOpen = function handleOpen() {
+  return console.log("connected to DB ✔");
+};
+var handleError = function handleError() {
+  return console.log("DB Error", error);
+};
 db.on("error", handleError);
 db.once("open", handleOpen);
 
