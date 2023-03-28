@@ -4,18 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-require("./db.mjs");
+require("./db.js");
 require("./models/video.js");
 var _express = _interopRequireDefault(require("express"));
 var _morgan = _interopRequireDefault(require("morgan"));
 var _expressSession = _interopRequireDefault(require("express-session"));
 var _connectMongo = _interopRequireDefault(require("connect-mongo"));
 var _expressFlash = _interopRequireDefault(require("express-flash"));
-var _rootRouter = _interopRequireDefault(require("./routers/rootRouter.mjs"));
-var _userRouter = _interopRequireDefault(require("./routers/userRouter.mjs"));
-var _videoRouter = _interopRequireDefault(require("./routers/videoRouter.mjs"));
-var _apiRouter = _interopRequireDefault(require("./routers/apiRouter.mjs"));
-var _middlewares = require("./middlewares.mjs");
+var _rootRouter = _interopRequireDefault(require("./routers/rootRouter.js"));
+var _userRouter = _interopRequireDefault(require("./routers/userRouter.js"));
+var _videoRouter = _interopRequireDefault(require("./routers/videoRouter.js"));
+var _apiRouter = _interopRequireDefault(require("./routers/apiRouter.js"));
+var _middlewares = require("./middlewares.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var app = (0, _express["default"])();
 var logger = (0, _morgan["default"])("dev");
