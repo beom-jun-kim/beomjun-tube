@@ -8,7 +8,7 @@ const BASE_JS = "./src/client/js/";
 const config = {
   entry: {
 
-    // 프로퍼티명은 꼭 파일명이랑 같을 필요없음
+    // 프로퍼티명은 꼭 파일명이랑 같을 필요X
     main: BASE_JS + "main.js",
     videoPlayer: BASE_JS + "videoPlayer.js",
     recorder: BASE_JS + "recorder.js",
