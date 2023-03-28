@@ -6,7 +6,7 @@ import {
   postEdit,
   getUpload,
   postUpload,
-} from "../controllers/videoControllers.js";
+} from "../controllers/videoControllers.mjs";
 import { protectorMiddleware, videoUpload } from "../middlewares.mjs";
 
 const videoRouter = express.Router();

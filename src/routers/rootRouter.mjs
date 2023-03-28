@@ -4,8 +4,8 @@ import {
   postJoin,
   getLogin,
   postLogin,
-} from "../controllers/userController.js";
-import { home, search } from "../controllers/videoControllers.js";
+} from "../controllers/userController.mjs";
+import { home, search } from "../controllers/videoControllers.mjs";
 import { publicOnlyMiddleware } from "../middlewares.mjs";
 
 const rootRouter = express.Router();
