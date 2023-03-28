@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config();
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+require("dotenv").config();
 import "./db.cjs";
 import "./models/video.cjs";
 import "./models/user.cjs";
