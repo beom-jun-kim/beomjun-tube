@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./dotenv.mjs";
 import "./db.mjs";
 import "./models/video.mjs";
 import "./models/user.mjs";
