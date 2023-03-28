@@ -1,2 +1,3 @@
-import "regenerator-runtime";
-import "../scss/styles.scss";
+"use strict";
+
+require("../scss/styles.scss");

@@ -1,22 +1,24 @@
-const video = document.querySelector("video");
-const playBtn = document.getElementById("play");
-const muteBtn = document.getElementById("mute");
-const volumeRange = document.getElementById("volume");
-const currenTime = document.getElementById("currenTime");
-const totalTime = document.getElementById("totalTime");
-const timeline = document.getElementById("timeline");
-const fullScreenBtn = document.getElementById("fullScreen");
-const videoContainer = document.getElementById("videoContainer");
-const videoControls = document.getElementById("videoControls");
-const playBtnIcon = playBtn.querySelector("i");
-const muteBtnIcon = muteBtn.querySelector("i");
-const fullscreenIcon = fullScreenBtn.querySelector("i.fas.fa-expand");
-let controlsMovementTimeout = null;
-let volumeValue = 0.5;
+"use strict";
+
+var video = document.querySelector("video");
+var playBtn = document.getElementById("play");
+var muteBtn = document.getElementById("mute");
+var volumeRange = document.getElementById("volume");
+var currenTime = document.getElementById("currenTime");
+var totalTime = document.getElementById("totalTime");
+var timeline = document.getElementById("timeline");
+var fullScreenBtn = document.getElementById("fullScreen");
+var videoContainer = document.getElementById("videoContainer");
+var videoControls = document.getElementById("videoControls");
+var playBtnIcon = playBtn.querySelector("i");
+var muteBtnIcon = muteBtn.querySelector("i");
+var fullscreenIcon = fullScreenBtn.querySelector("i.fas.fa-expand");
+var controlsMovementTimeout = null;
+var volumeValue = 0.5;
 video.volume = volumeValue;
 
 // Play
-const handlePlay = e => {
+var handlePlay = function handlePlay(e) {
   if (video.paused) {
     video.play();
   } else {
@@ -26,7 +28,7 @@ const handlePlay = e => {
 };
 
 // Mute
-const handleMute = e => {
+var handleMute = function handleMute(e) {
   if (video.muted) {
     video.muted = false;
   } else {
@@ -35,12 +37,8 @@ const handleMute = e => {
   muteBtnIcon.classList = video.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
   volumeRange.value = video.muted ? 0 : video.volume;
 };
-const handleVolumeChange = e => {
-  const {
-    target: {
-      value
-    }
-  } = e;
+var handleVolumeChange = function handleVolumeChange(e) {
+  var value = e.target.value;
   if (video.muted) {
     video.muted = false;
     muteBtnIcon.classList = "fas fa-volume-mute";
@@ -57,35 +55,31 @@ const handleVolumeChange = e => {
 };
 
 // Time
-const formatTime = sec => {
+var formatTime = function formatTime(sec) {
   return new Date(sec * 1000).toISOString().substring(14, 19);
 };
-const handleLoadedMetadata = () => {
+var handleLoadedMetadata = function handleLoadedMetadata() {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   timeline.max = Math.floor(video.duration);
 };
-const handleTimeUpdate = () => {
+var handleTimeUpdate = function handleTimeUpdate() {
   // formatTime : 숫자(날짜)들을 가져오는 방법
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);
 };
 
 // Timeline
-const handletimelineChange = e => {
-  const {
-    target: {
-      value
-    }
-  } = e;
+var handletimelineChange = function handletimelineChange(e) {
+  var value = e.target.value;
   video.currentTime = value;
 };
 
 // Full screen
-const handleFullscreen = () => {
-  const fullscreen = document.fullscreenElement;
+var handleFullscreen = function handleFullscreen() {
+  var fullscreen = document.fullscreenElement;
   if (fullscreen) {
     // exit하고 innerText를 enter로 바꿈
-    // document.fullscreenElement는 그냥 전체화면인지 아닌지 알려주는 요소일 뿐
+    // document.fullscreenElement는 그냥 전체화면인지 아닌지 알려주는 요소일 뿐이다
     document.exitFullscreen();
     fullScreenIcon.classList = "fas fa-expand";
   } else {
@@ -97,7 +91,7 @@ const handleFullscreen = () => {
 // Mouse Move
 // 커서를 움직일시 visible이벤트가 실행되고 멈추면
 // if문에 있는 controlsMovementTimeout가 실행된다
-const handleMouseMove = e => {
+var handleMouseMove = function handleMouseMove(e) {
   // 비디오 ele 내에서 커서를 움직일때
   if (controlsMovementTimeout) {
     // clearTimeout : 함수가 항상 한번만 실행하도록
@@ -107,14 +101,14 @@ const handleMouseMove = e => {
   videoControls.classList.add("visible");
   controlsMovementTimeout = setTimeout(hideControls, 3000);
 };
-const hideControls = () => videoControls.classList.remove("visible");
-const handleEnded = () => {
-  const {
-    id
-  } = videoContainer.dataset;
+var hideControls = function hideControls() {
+  return videoControls.classList.remove("visible");
+};
+var handleEnded = function handleEnded() {
+  var id = videoContainer.dataset.id;
 
   // post request는 data를 필요로 한다
-  fetch(`/api/videos/${id}/view`, {
+  fetch("/api/videos/".concat(id, "/view"), {
     method: "POST"
   });
 };

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node build/init.js",
-    "build": "npm run build:server && npm run build:assets",
+    "build": "babel src --out-dir build && npm run build:server && npm run build:assets",
     "build:server": "babel src -d build --ignore src/client",
     "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
@@ -44,6 +44,7 @@
     "@babel/core": "^7.21.3",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
+    "babel": "^6.23.0",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.2",
