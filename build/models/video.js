@@ -1,11 +1,13 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports["default"] = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 // db를 mongoose와 연결시켜서 video model을 인식
 // model을 만드는 이유 : DB의 구조에 대해 알려줘야 함
 
@@ -15,45 +17,49 @@ var videoSchema = new _mongoose["default"].Schema({
   title: {
     type: String,
     required: true,
-    maxLength: 30
+    maxLength: 30,
   },
   fileUrl: {
     type: String,
-    required: true
+    required: true,
   },
   thumbnailUrl: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
     required: true,
-    maxLength: 150
+    maxLength: 150,
   },
   createdAt: {
     type: Date,
     required: true,
-    "default": Date.now
+    default: Date.now,
   },
-  hashtags: [{
-    type: String,
-    trim: true
-  }],
-  comments: [{
-    type: _mongoose["default"].Schema.Types.ObjectId,
-    ref: "Comment"
-  }],
+  hashtags: [
+    {
+      type: String,
+      trim: true,
+    },
+  ],
+  comments: [
+    {
+      type: _mongoose["default"].Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
   meta: {
     views: {
       type: Number,
-      "default": 0,
-      required: true
+      default: 0,
+      required: true,
     },
     rating: {
       type: Number,
-      "default": 0,
-      required: true
-    }
+      default: 0,
+      required: true,
+    },
   },
   // video와 user를 연결 시키는 작업
   // ref : mongoose에게 owner에 id를 저장하겠다고 알려줘야하기 때문
@@ -62,8 +68,8 @@ var videoSchema = new _mongoose["default"].Schema({
   owner: {
     type: _mongoose["default"].Schema.Types.ObjectId,
     required: true,
-    ref: "User"
-  }
+    ref: "User",
+  },
 });
 
 // middleware

@@ -1,11 +1,18 @@
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
-exports.videoUpload = exports.publicOnlyMiddleware = exports.protectorMiddleware = exports.localsMiddlewares = exports.avatarUpload = void 0;
+exports.videoUpload =
+  exports.publicOnlyMiddleware =
+  exports.protectorMiddleware =
+  exports.localsMiddlewares =
+  exports.avatarUpload =
+    void 0;
 var _multer = _interopRequireDefault(require("multer"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 var localsMiddlewares = function localsMiddlewares(req, res, next) {
   // 왜 res.locals에 담아서 하는가?
   // res에 locals이라는 obj가 있는데 템플릿에서 locals에 접근 가능 (템플릿과 data 공유)
@@ -51,14 +58,14 @@ exports.publicOnlyMiddleware = publicOnlyMiddleware;
 var avatarUpload = (0, _multer["default"])({
   dest: "uploads/avatars/",
   limits: {
-    fileSize: 5000000
-  }
+    fileSize: 5000000,
+  },
 });
 exports.avatarUpload = avatarUpload;
 var videoUpload = (0, _multer["default"])({
   dest: "uploads/videos/",
   limits: {
-    fileSize: 7000000
-  }
+    fileSize: 7000000,
+  },
 });
 exports.videoUpload = videoUpload;

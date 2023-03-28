@@ -1,6 +1,6 @@
 import userModel from "../models/user.js";
 import fetch from "node-fetch";
-import bcrypt from "bcrypt"; /* 얘의 매소드를 쓰려면 임포트 해야함 */
+import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => {
   return res.render("join", { pageTitle: "Join" });

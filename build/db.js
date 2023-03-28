@@ -1,7 +1,9 @@
 "use strict";
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 // database에 연결
 _mongoose["default"].set("strictQuery", true);
 _mongoose["default"].connect(process.env.DB_URL);
