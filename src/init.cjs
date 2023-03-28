@@ -1,4 +1,4 @@
-var _module = require("module");
+const _module = require("module");
 const require = createRequire(import.meta.url);
 require("dotenv").config();
 const db = require("./db.cjs");
@@ -22,3 +22,4 @@ db.listen(PORT, handleListening);
 video.listen(PORT, handleListening);
 user.listen(PORT, handleListening);
 comment.listen(PORT, handleListening);
+_module.listen(PORT, handleListening);
