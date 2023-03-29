@@ -6,7 +6,7 @@ import {
   postLogin,
 } from "../controllers/userController.js";
 import { home, search } from "../controllers/videoControllers.js";
-import { publicOnlyMiddleware } from "../middlewares.mjs";
+import { publicOnlyMiddleware } from "../middlewares.js";
 
 const rootRouter = express.Router();
 
