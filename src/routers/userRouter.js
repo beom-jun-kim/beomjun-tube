@@ -13,7 +13,7 @@ import {
   protectorMiddleware,
   publicOnlyMiddleware,
   avatarUpload,
-} from "../middlewares.mjs";
+} from "../middlewares.js";
 
 const userRouter = express.Router();
 

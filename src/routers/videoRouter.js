@@ -7,7 +7,7 @@ import {
   getUpload,
   postUpload,
 } from "../controllers/videoControllers.js";
-import { protectorMiddleware, videoUpload } from "../middlewares.mjs";
+import { protectorMiddleware, videoUpload } from "../middlewares.js";
 
 const videoRouter = express.Router();
 
