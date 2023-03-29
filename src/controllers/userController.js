@@ -1,5 +1,5 @@
 import userModel from "../models/user.js";
-import fetch from "node-fetch";
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => {
