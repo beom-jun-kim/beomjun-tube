@@ -66,6 +66,8 @@ export const postEdit = async (req, res) => {
     file,
   } = req;
 
+  console.log("file",file);
+
   const sessionUsername = req.session.user.username;
   const sessionEmail = req.session.user.email;
   const formUsername = req.body.username;
@@ -109,7 +111,9 @@ export const postEdit = async (req, res) => {
     {
       // 파일이(user가 form에 파일 입력을 했으면) 존재하면 path로 , 아니면 기존으로
       // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
-      avatarUrl: file ? `/${file.path}` : avatarUrl,
+
+      // multer-S3에서는 path를 더 이상 사용하지 않고 location을 사용한다
+      avatarUrl: file ? `/${file.location}` : avatarUrl,
       name,
       email,
       username,
