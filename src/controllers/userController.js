@@ -113,7 +113,7 @@ export const postEdit = async (req, res) => {
       // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
 
       // multer-S3에서는 path를 더 이상 사용하지 않고 location을 사용한다
-      avatarUrl: file ? `/${file.location}` : avatarUrl,
+      avatarUrl: file ? `${file.location}` : avatarUrl,
       name,
       email,
       username,
