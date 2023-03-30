@@ -12,7 +12,8 @@ var s3 = new _awsSdk["default"].S3({
   // aws id와 aws secret 둘다 옵션으로 전달
   credentials: {
     accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET
+    secretAccessKey: process.env.AWS_SECRET,
+    acl: 'public-read'
   }
 });
 var multerUploader = (0, _multerS["default"])({

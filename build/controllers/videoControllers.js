@@ -296,12 +296,12 @@ var postUpload = /*#__PURE__*/function () {
             // 업로드 될 영상의 id를 user model에도 저장해 줘야한다
             title: title,
             description: description,
-            fileUrl: video[0].path,
+            fileUrl: video[0].location,
             // Windows의 path는 백슬래시를 사용..? 하기에 replace /로 변경
             // replace(/[찾을 문자열]/g, "변경할 문자열")
             // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시
             // []안에 특수기호를 넣으면 개별적으로 변환
-            thumbnailUrl: thumb[0].path.replace(/[\\]/g, "/"),
+            thumbnailUrl: thumb[0].location.replace(/[\\]/g, "/"),
             owner: _id,
             hashtags: _video["default"].formatHashtags(hashtags)
           });
