@@ -5,7 +5,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.videoUpload = exports.publicOnlyMiddleware = exports.protectorMiddleware = exports.localsMiddlewares = exports.avatarUpload = void 0;
 var _multer = _interopRequireDefault(require("multer"));
+var _multerS = _interopRequireDefault(require("multer-s3"));
+var _awsSdk = _interopRequireDefault(require("aws-sdk"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var s3 = new _awsSdk["default"].S3({
+  // aws id와 aws secret 둘다 옵션으로 전달
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET
+  }
+});
+var multerUploader = (0, _multerS["default"])({
+  s3: s3,
+  bucket: "beomjun-tube"
+});
 var localsMiddlewares = function localsMiddlewares(req, res, next) {
   // 왜 res.locals에 담아서 하는가?
   // res에 locals이라는 obj가 있는데 템플릿에서 locals에 접근 가능 (템플릿과 data 공유)
@@ -52,13 +65,15 @@ var avatarUpload = (0, _multer["default"])({
   dest: "uploads/avatars/",
   limits: {
     fileSize: 5000000
-  }
+  },
+  storage: multerUploader
 });
 exports.avatarUpload = avatarUpload;
 var videoUpload = (0, _multer["default"])({
   dest: "uploads/videos/",
   limits: {
     fileSize: 7000000
-  }
+  },
+  storage: multerUploader
 });
 exports.videoUpload = videoUpload;
