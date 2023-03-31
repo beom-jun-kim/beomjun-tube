@@ -106,6 +106,7 @@ export const postEdit = async (req, res) => {
   // findByIdAndUpdate는 update 되기 전의 데이터를 return
   // new:true를 설정해주면 findByIdAndUpdate가 업데이트 된 데이터를 return
   // 세개의 인자  : 첫번째는 업데이트 하려는 id , 두번째는 업데이트 하려는 정보(obj), 세번째는 options
+  const isHeroku = process.env.NODE_ENV === "production";
   const updateUser = await userModel.findByIdAndUpdate(
     _id,
     {
@@ -113,7 +114,7 @@ export const postEdit = async (req, res) => {
       // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
 
       // multer-S3에서는 path를 더 이상 사용하지 않고 location을 사용한다
-      avatarUrl: file ? `${file.location}` : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
       name,
       email,
       username,

@@ -11,6 +11,9 @@ const s3 = new aws.S3({
   }
 })
 
+// production 은 heroku 환경 , development은 로컬 환경
+const isHeroku = process.env.NODE_ENV === "production"
+
 const s3ImageUploader = multerS3({
   s3:s3,
   bucket:"beomjun-tube/images",
@@ -21,6 +24,9 @@ const s3VideoUploader = multerS3({
   s3:s3,
   bucket:"beomjun-tube/videos",
   acl: 'public-read',
+
+  // ios에서 영상 재생
+  contentType: multerS3.AUTO_CONTENT_TYPE,
 })
 
 export const localsMiddlewares = (req, res, next) => {
@@ -39,6 +45,7 @@ export const localsMiddlewares = (req, res, next) => {
 
   // session.user 값 템플릿과 공유
   res.locals.loggedInUser = req.session.user || {};
+  res.locals.isHeroku = isHeroku;
   next();
 };
 
@@ -67,10 +74,10 @@ export const publicOnlyMiddleware = (req, res, next) => {
 export const avatarUpload = multer({
   dest: "uploads/avatars/",
   limits: { fileSize: 5000000 },
-  storage: s3ImageUploader,
+  storage: isHeroku ? s3ImageUploader : undefined,
 });
 export const videoUpload = multer({
   dest: "uploads/videos/",
   limits: { fileSize: 7000000 },
-  storage: s3VideoUploader,
+  storage: isHeroku ? s3VideoUploader : undefined,
 });

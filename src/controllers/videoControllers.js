@@ -156,6 +156,8 @@ export const postUpload = async (req, res) => {
   // file이 한개일때는 file , 두개 이상일때는 files
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
+  const isHeroku = process.env.NODE_ENV === "production";
+  const replace = replace(/[\\]/g, "/");
   try {
     const newVideo = await movieModel.create({
       // type의 유효성 검사: 선언한 type과 다르게 선언해도 mongoose가 올바르게 자동변환
@@ -164,13 +166,13 @@ export const postUpload = async (req, res) => {
       // 업로드 될 영상의 id를 user model에도 저장해 줘야한다
       title,
       description,
-      fileUrl: video[0].location,
+      fileUrl: isHeroku ? video[0].location : video[0].path,
 
       // Windows의 path는 백슬래시를 사용..? 하기에 replace /로 변경
       // replace(/[찾을 문자열]/g, "변경할 문자열")
       // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시
       // []안에 특수기호를 넣으면 개별적으로 변환
-      thumbnailUrl: thumb[0].location.replace(/[\\]/g, "/"),
+      thumbnailUrl: isHeroku ? thumb[0].location.replace : thumb[0].path.replace,
       owner: _id,
       hashtags: movieModel.formatHashtags(hashtags),
     });
