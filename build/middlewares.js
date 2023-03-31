@@ -12,13 +12,20 @@ var s3 = new _awsSdk["default"].S3({
   // aws id와 aws secret 둘다 옵션으로 전달
   credentials: {
     accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_SECRET,
-    acl: 'public-read'
+    secretAccessKey: process.env.AWS_SECRET
   }
 });
-var multerUploader = (0, _multerS["default"])({
+var s3ImageUploader = (0, _multerS["default"])({
   s3: s3,
-  bucket: "beomjun-tube"
+  bucket: "beomjun-tube/images",
+  acl: 'public-read'
+});
+var s3VideoUploader = (0, _multerS["default"])({
+  s3: s3,
+  bucket: "beomjun-tube/videos",
+  acl: 'public-read',
+  // ios에서 영상 재생
+  contentType: _multerS["default"].AUTO_CONTENT_TYPE
 });
 var localsMiddlewares = function localsMiddlewares(req, res, next) {
   // 왜 res.locals에 담아서 하는가?
@@ -36,6 +43,7 @@ var localsMiddlewares = function localsMiddlewares(req, res, next) {
 
   // session.user 값 템플릿과 공유
   res.locals.loggedInUser = req.session.user || {};
+  res.locals.isHeroku = isHeroku;
   next();
 };
 exports.localsMiddlewares = localsMiddlewares;
@@ -67,7 +75,7 @@ var avatarUpload = (0, _multer["default"])({
   limits: {
     fileSize: 5000000
   },
-  storage: multerUploader
+  storage: isHeroku ? s3ImageUploader : undefined
 });
 exports.avatarUpload = avatarUpload;
 var videoUpload = (0, _multer["default"])({
@@ -75,6 +83,6 @@ var videoUpload = (0, _multer["default"])({
   limits: {
     fileSize: 7000000
   },
-  storage: multerUploader
+  storage: isHeroku ? s3VideoUploader : undefined
 });
 exports.videoUpload = videoUpload;

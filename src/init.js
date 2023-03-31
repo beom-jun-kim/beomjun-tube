@@ -1,5 +1,6 @@
 import "dotenv/config";
 import "./db.js";
+import "./heroku.js"
 import "./models/video.js";
 import "./models/user.js";
 import "./models/comment.js";

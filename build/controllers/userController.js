@@ -91,7 +91,7 @@ var getEdit = function getEdit(req, res) {
 exports.getEdit = getEdit;
 var postEdit = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var pageTitle, _req$session$user, _id, avatarUrl, _req$body2, name, username, email, location, file, sessionUsername, sessionEmail, formUsername, formEmail, exists, _exists, _exists2, updateUser;
+    var pageTitle, _req$session$user, _id, avatarUrl, _req$body2, name, username, email, location, file, sessionUsername, sessionEmail, formUsername, formEmail, exists, _exists, _exists2, isHeroku, updateUser;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -166,13 +166,17 @@ var postEdit = /*#__PURE__*/function () {
             error_message: "이미 존재하는 이메일입니다"
           }));
         case 25:
-          _context2.next = 27;
+          // findByIdAndUpdate는 update 되기 전의 데이터를 return
+          // new:true를 설정해주면 findByIdAndUpdate가 업데이트 된 데이터를 return
+          // 세개의 인자  : 첫번째는 업데이트 하려는 id , 두번째는 업데이트 하려는 정보(obj), 세번째는 options
+          isHeroku = process.env.NODE_ENV === "production";
+          _context2.next = 28;
           return _user["default"].findByIdAndUpdate(_id, {
             // 파일이(user가 form에 파일 입력을 했으면) 존재하면 path로 , 아니면 기존으로
             // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
 
             // multer-S3에서는 path를 더 이상 사용하지 않고 location을 사용한다
-            avatarUrl: file ? "".concat(file.location) : avatarUrl,
+            avatarUrl: file ? isHeroku ? file.location : file.path : avatarUrl,
             name: name,
             email: email,
             username: username,
@@ -180,11 +184,11 @@ var postEdit = /*#__PURE__*/function () {
           }, {
             "new": true
           });
-        case 27:
+        case 28:
           updateUser = _context2.sent;
           req.session.user = updateUser;
           return _context2.abrupt("return", res.redirect("/users/edit-profile"));
-        case 30:
+        case 31:
         case "end":
           return _context2.stop();
       }

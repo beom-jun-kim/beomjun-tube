@@ -2,6 +2,7 @@
 
 require("dotenv/config");
 require("./db.js");
+require("./heroku.js");
 require("./models/video.js");
 require("./models/user.js");
 require("./models/comment.js");
