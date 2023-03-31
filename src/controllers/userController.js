@@ -66,8 +66,6 @@ export const postEdit = async (req, res) => {
     file,
   } = req;
 
-  console.log("file",file);
-
   const sessionUsername = req.session.user.username;
   const sessionEmail = req.session.user.email;
   const formUsername = req.body.username;

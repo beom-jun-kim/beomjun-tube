@@ -157,7 +157,6 @@ export const postUpload = async (req, res) => {
   const { video, thumb } = req.files;
   const { title, description, hashtags } = req.body;
   const isHeroku = process.env.NODE_ENV === "production";
-  const replace = replace(/[\\]/g, "/");
   try {
     const newVideo = await movieModel.create({
       // type의 유효성 검사: 선언한 type과 다르게 선언해도 mongoose가 올바르게 자동변환
@@ -172,7 +171,7 @@ export const postUpload = async (req, res) => {
       // replace(/[찾을 문자열]/g, "변경할 문자열")
       // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시
       // []안에 특수기호를 넣으면 개별적으로 변환
-      thumbnailUrl: isHeroku ? thumb[0].location.replace : thumb[0].path.replace,
+      thumbnailUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : thumb[0].path.replace(/[\\]/g, "/"),
       owner: _id,
       hashtags: movieModel.formatHashtags(hashtags),
     });
