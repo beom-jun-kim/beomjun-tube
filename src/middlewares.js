@@ -8,13 +8,13 @@ const s3 = new aws.S3({
   credentials: {
     accessKeyId: process.env.AWS_ID,
     secretAccessKey:process.env.AWS_SECRET,
-    acl: 'public-read',
   }
 })
 
 const multerUploader = multerS3({
   s3:s3,
   bucket:"beomjun-tube",
+  acl: 'public-read',
 })
 
 export const localsMiddlewares = (req, res, next) => {
