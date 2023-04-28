@@ -10,7 +10,7 @@ const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 const playBtnIcon = playBtn.querySelector("i");
 const muteBtnIcon = muteBtn.querySelector("i");
-const fullscreenIcon = fullScreenBtn.querySelector("i.fas.fa-expand");
+const fullScreenIcon = fullScreenBtn.querySelector("i.fas.fa-expand");
 
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
