@@ -7,6 +7,7 @@ exports.videoUpload = exports.publicOnlyMiddleware = exports.protectorMiddleware
 var _multer = _interopRequireDefault(require("multer"));
 var _multerS = _interopRequireDefault(require("multer-s3"));
 var _awsSdk = _interopRequireDefault(require("aws-sdk"));
+var _heroku = _interopRequireDefault(require("./heroku.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var s3 = new _awsSdk["default"].S3({
   // aws id와 aws secret 둘다 옵션으로 전달
@@ -43,7 +44,7 @@ var localsMiddlewares = function localsMiddlewares(req, res, next) {
 
   // session.user 값 템플릿과 공유
   res.locals.loggedInUser = req.session.user || {};
-  res.locals.isHeroku = isHeroku;
+  res.locals.isHeroku = _heroku["default"];
   next();
 };
 exports.localsMiddlewares = localsMiddlewares;
@@ -75,7 +76,7 @@ var avatarUpload = (0, _multer["default"])({
   limits: {
     fileSize: 5000000
   },
-  storage: isHeroku ? s3ImageUploader : undefined
+  storage: _heroku["default"] ? s3ImageUploader : undefined
 });
 exports.avatarUpload = avatarUpload;
 var videoUpload = (0, _multer["default"])({
@@ -83,6 +84,6 @@ var videoUpload = (0, _multer["default"])({
   limits: {
     fileSize: 7000000
   },
-  storage: isHeroku ? s3VideoUploader : undefined
+  storage: _heroku["default"] ? s3VideoUploader : undefined
 });
 exports.videoUpload = videoUpload;

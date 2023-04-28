@@ -100,16 +100,15 @@ var postEdit = /*#__PURE__*/function () {
           // (const id = req.session.user.id와 같음)
           // 지금 상황에서는 user는 업데이트 했는데 session이 업데이트 되지 않을 것이다 (session은 DB와 연결되어있지 않다)
           _req$session$user = req.session.user, _id = _req$session$user._id, avatarUrl = _req$session$user.avatarUrl, _req$body2 = req.body, name = _req$body2.name, username = _req$body2.username, email = _req$body2.email, location = _req$body2.location, file = req.file;
-          console.log("file", file);
           sessionUsername = req.session.user.username;
           sessionEmail = req.session.user.email;
           formUsername = req.body.username;
           formEmail = req.body.email;
           if (!(sessionUsername !== formUsername && sessionEmail !== formEmail)) {
-            _context2.next = 13;
+            _context2.next = 12;
             break;
           }
-          _context2.next = 10;
+          _context2.next = 9;
           return _user["default"].exists({
             $or: [{
               username: username
@@ -117,60 +116,60 @@ var postEdit = /*#__PURE__*/function () {
               email: email
             }]
           });
-        case 10:
+        case 9:
           exists = _context2.sent;
           if (!exists) {
-            _context2.next = 13;
+            _context2.next = 12;
             break;
           }
           return _context2.abrupt("return", res.render("edit-profile", {
             pageTitle: pageTitle,
             error_message: "이미 존재하는 아이디와 이메일 입니다"
           }));
-        case 13:
+        case 12:
           if (!(sessionUsername !== formUsername)) {
-            _context2.next = 19;
+            _context2.next = 18;
             break;
           }
-          _context2.next = 16;
+          _context2.next = 15;
           return _user["default"].exists({
             username: username
           });
-        case 16:
+        case 15:
           _exists = _context2.sent;
           if (!_exists) {
-            _context2.next = 19;
+            _context2.next = 18;
             break;
           }
           return _context2.abrupt("return", res.render("edit-profile", {
             pageTitle: pageTitle,
             error_message: "이미 존재하는 아이디입니다"
           }));
-        case 19:
+        case 18:
           if (!(sessionEmail !== formEmail)) {
-            _context2.next = 25;
+            _context2.next = 24;
             break;
           }
-          _context2.next = 22;
+          _context2.next = 21;
           return _user["default"].exists({
             email: email
           });
-        case 22:
+        case 21:
           _exists2 = _context2.sent;
           if (!_exists2) {
-            _context2.next = 25;
+            _context2.next = 24;
             break;
           }
           return _context2.abrupt("return", res.render("edit-profile", {
             pageTitle: pageTitle,
             error_message: "이미 존재하는 이메일입니다"
           }));
-        case 25:
+        case 24:
           // findByIdAndUpdate는 update 되기 전의 데이터를 return
           // new:true를 설정해주면 findByIdAndUpdate가 업데이트 된 데이터를 return
           // 세개의 인자  : 첫번째는 업데이트 하려는 id , 두번째는 업데이트 하려는 정보(obj), 세번째는 options
           isHeroku = process.env.NODE_ENV === "production";
-          _context2.next = 28;
+          _context2.next = 27;
           return _user["default"].findByIdAndUpdate(_id, {
             // 파일이(user가 form에 파일 입력을 했으면) 존재하면 path로 , 아니면 기존으로
             // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
@@ -184,11 +183,11 @@ var postEdit = /*#__PURE__*/function () {
           }, {
             "new": true
           });
-        case 28:
+        case 27:
           updateUser = _context2.sent;
           req.session.user = updateUser;
           return _context2.abrupt("return", res.redirect("/users/edit-profile"));
-        case 31:
+        case 30:
         case "end":
           return _context2.stop();
       }

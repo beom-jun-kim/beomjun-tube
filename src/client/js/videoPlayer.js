@@ -67,11 +67,12 @@ const formatTime = (sec) => {
 };
 
 const handleLoadedMetadata = () => {
-  totalTime.innerText = formatTime(Math.floor(video.duration));
+  totalTime.innerText = formatTime(Math.floor(video.duration));  
   timeline.max = Math.floor(video.duration);
 };
 
 const handleTimeUpdate = () => {
+
   // formatTime : 숫자(날짜)들을 가져오는 방법
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);

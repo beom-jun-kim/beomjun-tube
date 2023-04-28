@@ -278,7 +278,7 @@ var getUpload = function getUpload(req, res) {
 exports.getUpload = getUpload;
 var postUpload = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
-    var _id, _req$files, video, thumb, _req$body2, title, description, hashtags, isHeroku, replace, newVideo, user;
+    var _id, _req$files, video, thumb, _req$body2, title, description, hashtags, isHeroku, newVideo, user;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
@@ -288,9 +288,8 @@ var postUpload = /*#__PURE__*/function () {
           _req$files = req.files, video = _req$files.video, thumb = _req$files.thumb;
           _req$body2 = req.body, title = _req$body2.title, description = _req$body2.description, hashtags = _req$body2.hashtags;
           isHeroku = process.env.NODE_ENV === "production";
-          replace = replace(/[\\]/g, "/");
-          _context7.prev = 5;
-          _context7.next = 8;
+          _context7.prev = 4;
+          _context7.next = 7;
           return _video["default"].create({
             // type의 유효성 검사: 선언한 type과 다르게 선언해도 mongoose가 올바르게 자동변환
             // id는 몽구스에서 부여해준다
@@ -303,32 +302,32 @@ var postUpload = /*#__PURE__*/function () {
             // replace(/[찾을 문자열]/g, "변경할 문자열")
             // g : 전체 모든 문자열 변경 / i : 영문 대소문자 무시
             // []안에 특수기호를 넣으면 개별적으로 변환
-            thumbnailUrl: isHeroku ? thumb[0].location.replace : thumb[0].path.replace,
+            thumbnailUrl: isHeroku ? thumb[0].location.replace(/[\\]/g, "/") : thumb[0].path.replace(/[\\]/g, "/"),
             owner: _id,
             hashtags: _video["default"].formatHashtags(hashtags)
           });
-        case 8:
+        case 7:
           newVideo = _context7.sent;
-          _context7.next = 11;
+          _context7.next = 10;
           return _user["default"].findById(_id);
-        case 11:
+        case 10:
           user = _context7.sent;
           // user model의 videos array에 newVideo._id를 넣는다
           user.videos.push(newVideo._id);
           user.save();
           return _context7.abrupt("return", res.redirect("/"));
-        case 17:
-          _context7.prev = 17;
-          _context7.t0 = _context7["catch"](5);
+        case 16:
+          _context7.prev = 16;
+          _context7.t0 = _context7["catch"](4);
           return _context7.abrupt("return", res.status(400).render("upload", {
             pageTitle: "Upload Video",
             errorMessage: Error._Message
           }));
-        case 20:
+        case 19:
         case "end":
           return _context7.stop();
       }
-    }, _callee7, null, [[5, 17]]);
+    }, _callee7, null, [[4, 16]]);
   }));
   return function postUpload(_x13, _x14) {
     return _ref7.apply(this, arguments);

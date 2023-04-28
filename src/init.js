@@ -13,3 +13,9 @@ const handleListening = () => {
   console.log(`SERVER http://localhost:${PORT}`);
 };
 app.listen(PORT, handleListening);
+
+
+// 수정사항
+// 1. sns로그인 (카카오톡 로그인 추가)
+// 2. 영상 재생 에러 (플레이바)
+// 3. css 전면 수정

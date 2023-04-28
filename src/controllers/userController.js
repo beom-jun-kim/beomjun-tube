@@ -112,7 +112,7 @@ export const postEdit = async (req, res) => {
       // 새로운 avatarUrl을 session의 user obj에 있는 기존 것으로 (덮어쓰기)
 
       // multer-S3에서는 path를 더 이상 사용하지 않고 location을 사용한다
-      avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+      avatarUrl: file ? (isHeroku ? file.location : '/' + file.path.replace(/[\\]/g, "/")) : avatarUrl,
       name,
       email,
       username,
@@ -170,6 +170,7 @@ export const startGithubLogin = (req, res) => {
   return res.redirect(finalUrl);
 };
 
+
 export const finishGithubLogin = async (req, res) => {
   const baseUrl = "https://github.com/login/oauth/access_token";
 
@@ -182,6 +183,7 @@ export const finishGithubLogin = async (req, res) => {
     // req.query는 code를 받는다 : 유효기간은 10분
     code: req.query.code,
   };
+
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
 
