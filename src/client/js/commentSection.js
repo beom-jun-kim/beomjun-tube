@@ -24,11 +24,11 @@ const addComment = (text, id) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  const textarea = form.querySelector("textarea");
-  const text = textarea.value;
+  const input = form.querySelector("input");
+  const text = input.value;
   const videoId = videoContainer.dataset.id;
 
-  // textarea에 아무것도 없으면 submit X
+  // input에 아무것도 없으면 submit X
   if (text === "") {
     return;
   }
@@ -54,7 +54,7 @@ const handleSubmit = async (e) => {
   
   //위 36열이랑 이어짐 : status를 검사. await를 써서 json으로 메시지 추출
   if (response.status === 201) {
-    textarea.value = "";
+    input.value = "";
     const { newCommentId } = await response.json();
     addComment(text, newCommentId);
   }

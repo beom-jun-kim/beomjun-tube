@@ -23,17 +23,19 @@ block content
                 span#fullScreen
                     i.fas.fa-expand
 
-    div
+    
+    div.video__desc--info
         p.descriptionfileUrl=video.descriptionfileUrl
         small.createdAt=video.createdAt
-    div 
         p.description=video.description
         p.hashtags=video.hashtags
         small.owner__upload
             a(href=`/users/${video.owner._id}`) 
-                span #{video.owner.name}
-                span 님이 업로드 하셨습니다
-    hr
+                div.upload__user
+                    div.upload__user--img
+                        img(src=loggedInUser.avatarUrl)
+                    span #{video.owner.name}
+                    
     if String(video.owner._id) === String(loggedInUser._id)
         a(href=`${video.id}/edit`) 
             i.fa-solid.fa-pen-to-square  편집하기
@@ -43,23 +45,27 @@ block content
             i.fa-solid.fa-trash  삭제하기
 
     if loggedIn
-        div.video__comments
-            form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="댓글을 달아주세요")
-                button 작성완료
+        div.comment__write
+            small.owner__upload
+                    a(href=`/users/${video.owner._id}`) 
+                        div.upload__user--img
+                            img(src=loggedInUser.avatarUrl)
+            div.video__comments
+                form.video__comment-form#commentForm
+                    input(cols="30", rows="10", placeholder="댓글을 달아주세요")
+                    button 작성
 
     div.video__comment-box
         ul
             each comment in video.comments.reverse()
                 li.comment(data-id=comment._id)
-                    i.fas.fa-comment
+                    small.owner__upload
+                        a(href=`/users/${video.owner._id}`)
+                            .div.upload__user--img
+                                img(src=loggedInUser.avatarUrl)
                     span #{comment.text}
                     if String(video.owner._id) === String(loggedInUser._id)
                         span#deleteBtn X
 block scripts
     script(src="/static/js/videoPlayer.js")
     script(src="/static/js/commentSection.js")
-
-    //- relative , absoulte url : 앞에 /를 지우면 root  url이 나타난다 , /를 추가하면 어디에 있든 그곳으로 이동
-    //- 위 경우 이미 videos 경로에 있기 때문에 앞의 /를 지우고 뒤에것부터 적어도 된다
-    //- 릴레이티드가 /가 없는거
