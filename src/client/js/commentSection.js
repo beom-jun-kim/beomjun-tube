@@ -13,10 +13,14 @@ const addComment = (text, id) => {
   const span = document.createElement("span");
   span.innerText = ` ${text}`;
   const span2 = document.createElement("span");
-  span2.innerText = "X";
+  span2.classList = "deleteBtn"
+  const deleteIcon = document.createElement("i");
+  deleteIcon.classList = "fa-solid fa-trash-can";
   newComment.appendChild(icon);
   newComment.appendChild(span);
   newComment.appendChild(span2);
+  span2.appendChild(deleteIcon);
+  newComment.appendChild(deleteIcon);
 
   // prepend : 새로 생성된 ele가 제일 위로
   videoComments.prepend(newComment);
@@ -67,7 +71,8 @@ const handleDelete = async (e) => {
   });
   if(reponse.status === 201) {
     const comment = e.target.parentElement;
-    comment.remove();
+    comment.parentElement.remove();
+    
   }
 }
 

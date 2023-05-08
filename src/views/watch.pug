@@ -59,13 +59,12 @@ block content
         ul
             each comment in video.comments.reverse()
                 li.comment(data-id=comment._id)
-                    small.owner__upload
-                        a(href=`/users/${video.owner._id}`)
-                            .div.upload__user--img
-                                img(src=loggedInUser.avatarUrl)
+                    small.comment__owner--icon
+                        i.fas.fa-comment
                     span #{comment.text}
                     if String(video.owner._id) === String(loggedInUser._id)
-                        span#deleteBtn X
+                        span#deleteBtn.deleteBtn
+                            i.fa-solid.fa-trash-can
 block scripts
     script(src="/static/js/videoPlayer.js")
     script(src="/static/js/commentSection.js")

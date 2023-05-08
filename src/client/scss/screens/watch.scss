@@ -1,9 +1,9 @@
 .video__desc--info {
-    background: $darkText;
-    border-radius: 12px;
-    margin: 20px 0;
-    padding: 12px;
-    color: $bg;
+  background: $darkText;
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 12px;
+  color: $bg;
 }
 
 .video_title {
@@ -48,46 +48,56 @@
 }
 
 .comment__write {
-    margin-top: 30px;
-    display: flex;
+  margin-top: 30px;
+  display: flex;
 }
 
 .video__comments {
-    width: 100%;
+  width: 100%;
 }
 
 form.video__comment-form {
-    position: relative;
-    // width: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
+  position: relative;
+  // width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 form.video__comment-form input {
-    border: none;
-    border-bottom: 2px solid $darkText;
-    background: none;
-    border-radius: 0;
-    padding: 10px 0 10px 5px;
-    width: 100%;
+  border: none;
+  border-bottom: 2px solid $darkText;
+  background: none;
+  border-radius: 0;
+  padding: 10px 0 10px 5px;
+  width: 100%;
 }
 
 form.video__comment-form button {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background: $darkText;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 12px;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: $darkText;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .video__comment-box {
-    margin-top: 20px;
-}
-.video__comment-box .comment {
-    padding: 10px 0;
+  margin-top: 20px;
+  .comment {
+    padding: 15px 0;
+    .deleteBtn {
+      cursor: pointer;
+      margin-left: 8px;
+      i {
+        font-size: 15px;
+      }
+    }
+    .comment__owner--icon {
+      margin-right: 5px;
+    }
+  }
 }
