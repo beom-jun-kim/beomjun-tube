@@ -19,8 +19,8 @@ const addComment = (text, id) => {
   newComment.appendChild(icon);
   newComment.appendChild(span);
   newComment.appendChild(span2);
-  span2.appendChild(deleteIcon);
   newComment.appendChild(deleteIcon);
+  span2.appendChild(deleteIcon);
 
   // prepend : 새로 생성된 ele가 제일 위로
   videoComments.prepend(newComment);
