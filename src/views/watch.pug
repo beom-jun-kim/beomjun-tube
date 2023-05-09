@@ -33,7 +33,7 @@ block content
             a(href=`/users/${video.owner._id}`) 
                 div.upload__user
                     div.upload__user--img
-                        img(src=loggedInUser.avatarUrl)
+                        img(src=video.owner.avatarUrl)
                     span #{video.owner.name}
                     
     if String(video.owner._id) === String(loggedInUser._id)
