@@ -1,9 +1,11 @@
 extends base
 
 block content
-    div
+    div.record__screen
         video#preview
-        button#actionBtn 녹화하기
+        button#actionBtn
+            span.record___circle
+            span.actionBtn 녹화하기
     if errorMessage
         span = errorMessage
     form(method="POST" enctype="multipart/form-data")

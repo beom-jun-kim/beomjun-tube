@@ -1,0 +1,24 @@
+.record__screen {
+  position: relative;
+  max-width: 420px;
+  #actionBtn {
+    background: none;
+    border: none;
+    color: $darkText;
+    margin-bottom: 20px;
+    font-size: $smallFont;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+  .record___circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 15px 4px red;
+  }  
+}

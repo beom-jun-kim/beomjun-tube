@@ -72,7 +72,6 @@ const handleDelete = async (e) => {
   if(reponse.status === 201) {
     const comment = e.target.parentElement;
     comment.parentElement.remove();
-    
   }
 }
 
