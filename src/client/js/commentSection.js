@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
     body: JSON.stringify({ text }),
   });
   
-  //위 36열이랑 이어짐 : status를 검사. await를 써서 json으로 메시지 추출
+  //위 40열이랑 이어짐 : status를 검사. await를 써서 json으로 메시지 추출
   if (response.status === 201) {
     input.value = "";
     const { newCommentId } = await response.json();

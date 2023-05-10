@@ -9,7 +9,7 @@ block content
 
     //- entype : form이 다르게 encode된다
     form(method="POST" enctype="multipart/form-data").edit-profile__form
-        label(for="avatar") Avatar
+        label(for="avatar") 썸네일
         input(type="file" id="avatar" name="avatar" accept="image/*")
         input(name="name", type="text", required , placeholder="이름을 입력하여 주세요" value=loggedInUser.name)
         input(name="username", type="text", required, placeholder="아이디를 입력하여 주세요" value=loggedInUser.username)
@@ -18,4 +18,4 @@ block content
         input(type="submit", value="변경하기")
         if !loggedInUser.socialOnly
             div.edit-profile__password
-                a(href="change-password") 비밀번호 바꾸기 →
+                a(href="change-password") 비밀번호 바꾸기
