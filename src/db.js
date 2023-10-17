@@ -10,7 +10,7 @@ const db = mongoose.connection;
 // on : 여러번 계속 발생시킬 수 있다 . 클릭 이벤트
 // once : 한번만 발생
 const handleOpen = () => console.log("connected to DB ✔");
-const handleError = () => console.log("DB Error", error);
+const handleError = () => console.log("DB Error");
 db.on("error", handleError);
 db.once("open", handleOpen);
 
