@@ -2,6 +2,9 @@
 유튜브를 참고하여 만든 미디어 공유 사이트입니다
 <br>
 <br>
+<img src="https://github.com/beom-jun-kim/beomjun-tube/assets/84590988/53d18ca4-ed10-49c6-aa6d-ddb016c82fa1">
+<br>
+<br>
 
 # 🕰️ 개발기간
 * 23.01.02일 - 23.03.01일
